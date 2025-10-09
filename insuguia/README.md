@@ -27,7 +27,7 @@ Siga os passos abaixo para executar o aplicativo localmente:
 
 ### 1. Clonar o Repositório
 ```bash
-git clone https://github.com/seu-usuario/insuguia-mobile.git
+git clone https://github.com/MarcuseDemarchi/InsuGuia.git
 cd insuguia-mobile
 ```
 
