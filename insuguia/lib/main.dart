@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:insuguia/login.dart';
+import 'package:insuguia/register.dart';
 
 void main() {
-  runApp(const MainApp());
+  runApp(MaterialApp(
+    initialRoute: '/',
+    routes: {
+      '/' : (context) => const MainApp(),
+      '/login' : (context) => const LoginPage()
+    },
+  ));
 }
 
 class MainApp extends StatelessWidget {
@@ -28,7 +36,9 @@ class MainApp extends StatelessWidget {
                 height: 200,
               ),
               ElevatedButton(
-                onPressed: press,
+                onPressed: () => {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()))
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white,
                   fixedSize: Size(200, 32),
@@ -42,7 +52,9 @@ class MainApp extends StatelessWidget {
               ),
               SizedBox(height: 20,),
               ElevatedButton(
-                onPressed: press,
+                onPressed: () => {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterPage()))
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blue[700],
                   fixedSize: Size(200, 32),
@@ -59,9 +71,4 @@ class MainApp extends StatelessWidget {
       ),
     );
   }
-}
-
-
-void press(){
-  
 }
