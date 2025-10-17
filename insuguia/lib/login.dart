@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:insuguia/home.dart';
 import 'package:insuguia/register.dart';
 
 class LoginPage extends StatelessWidget{
@@ -59,7 +60,9 @@ class LoginPage extends StatelessWidget{
                 ),
                 SizedBox(height: 80),
                 ElevatedButton(
-                  onPressed: () {}, 
+                  onPressed: () => {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()))
+                  }, 
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
                     fixedSize: Size(200, 32),
