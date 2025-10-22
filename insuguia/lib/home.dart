@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:insuguia/components/appnavigationbar.dart';
+import 'package:insuguia/paciente/paciente.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -19,14 +20,19 @@ class HomePage extends StatelessWidget {
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.blue[700],
-          title: Text('Boas-vindas', style: TextStyle(color: Colors.white)),
+          title: Row(
+            children: [
+              Icon(Icons.local_hospital, color: Colors.white,),
+              Text(' Boas-vindas', style: TextStyle(color: Colors.white)),
+            ],
+          )
         ),
         backgroundColor: Colors.white,
-        body: Column(
-          children: [
-            Padding(
-              padding: EdgeInsetsGeometry.all(20),
-              child: Container(
+        body: Padding(
+          padding: EdgeInsetsGeometry.all(20),
+          child: ListView(
+            children: [
+              Container(
                 decoration: BoxDecoration(
                   color: Color.fromRGBO(255, 247, 230, 1),
                   border: Border.all(
@@ -68,10 +74,8 @@ class HomePage extends StatelessWidget {
                   ),
                 ),
               ),
-            ),
-            Padding(
-              padding: EdgeInsetsGeometry.fromLTRB(20, 0, 20, 20),
-              child: Text.rich(
+              SizedBox(height: 20),
+              Text.rich(
                 TextSpan(
                   children: [
                     TextSpan(
@@ -97,125 +101,125 @@ class HomePage extends StatelessWidget {
                   ],
                 ),
               ),
-            ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue[700],
-              ),
-              onPressed: () => {},
-              child: Padding(
-                padding: EdgeInsetsGeometry.all(10),
-                child: Text(
-                  'Ir para o Cadastro de Pacientes',
-                  style: TextStyle(color: Colors.white),
+              SizedBox(height: 20),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue[700],
+                ),
+                onPressed: () => {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => PacientePage()))
+                },
+                child: Padding(
+                  padding: EdgeInsetsGeometry.all(10),
+                  child: Text(
+                    'Ir para o Cadastro de Pacientes',
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
               ),
-            ),
-            SizedBox(height: 20),
-            Divider(),
-            Container(
-              padding: EdgeInsetsGeometry.all(20),
-              alignment: Alignment.topLeft,
-              child: ListBody(
-                children: [
-                  Text(
-                    'Fluxo',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
-                  ),
-                  SizedBox(height: 10),
-                  Text.rich(
-                    TextSpan(
-                      children: [
-                        TextSpan(
-                          text: '1.',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        TextSpan(text: 'Entrar ou registrar'),
-                      ],
+              SizedBox(height: 20),
+              Divider(),
+              SizedBox(height: 20),
+              Container(
+                alignment: Alignment.topLeft,
+                child: ListBody(
+                  children: [
+                    Text(
+                      'Fluxo',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
                     ),
-                  ),
-                  Text.rich(
-                    TextSpan(
-                      children: [
-                        TextSpan(
-                          text: '2.',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        TextSpan(text: 'Cadastro do paciente'),
-                      ],
+                    SizedBox(height: 10),
+                    Text.rich(
+                      TextSpan(
+                        children: [
+                          TextSpan(
+                            text: '1.',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          TextSpan(text: 'Entrar ou registrar'),
+                        ],
+                      ),
                     ),
-                  ),
-                  Text.rich(
-                    TextSpan(
-                      children: [
-                        TextSpan(
-                          text: '3.',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        TextSpan(text: 'Classificação (5 cenários)'),
-                      ],
+                    Text.rich(
+                      TextSpan(
+                        children: [
+                          TextSpan(
+                            text: '2.',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          TextSpan(text: 'Cadastro do paciente'),
+                        ],
+                      ),
                     ),
-                  ),
-                  Text.rich(
-                    TextSpan(
-                      children: [
-                        TextSpan(
-                          text: '4.',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        TextSpan(text: 'Protocolo específico'),
-                      ],
+                    Text.rich(
+                      TextSpan(
+                        children: [
+                          TextSpan(
+                            text: '3.',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          TextSpan(text: 'Classificação (5 cenários)'),
+                        ],
+                      ),
                     ),
-                  ),
-                  Text.rich(
-                    TextSpan(
-                      children: [
-                        TextSpan(
-                          text: '5.',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        TextSpan(text: 'Prescrição sugerida (blocos)'),
-                      ],
+                    Text.rich(
+                      TextSpan(
+                        children: [
+                          TextSpan(
+                            text: '4.',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          TextSpan(text: 'Protocolo específico'),
+                        ],
+                      ),
                     ),
-                  ),
-                  Text.rich(
-                    TextSpan(
-                      children: [
-                        TextSpan(
-                          text: '6.',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        TextSpan(text: 'Acompanhamento (opcional)'),
-                      ],
+                    Text.rich(
+                      TextSpan(
+                        children: [
+                          TextSpan(
+                            text: '5.',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          TextSpan(text: 'Prescrição sugerida (blocos)'),
+                        ],
+                      ),
                     ),
-                  ),
-                  Text.rich(
-                    TextSpan(
-                      children: [
-                        TextSpan(
-                          text: '7.',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        TextSpan(text: 'Alta hospitalar'),
-                      ],
+                    Text.rich(
+                      TextSpan(
+                        children: [
+                          TextSpan(
+                            text: '6.',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          TextSpan(text: 'Acompanhamento (opcional)'),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                    Text.rich(
+                      TextSpan(
+                        children: [
+                          TextSpan(
+                            text: '7.',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          TextSpan(text: 'Alta hospitalar'),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            Padding(
-              padding: EdgeInsetsGeometry.all(20),
-              child: Text(
+              SizedBox(height: 20),
+              Text(
                 'Este protótipo implementa o cenário “Não crítico” com cálculos. Os demais cenários estão prontos para navegação/visualização.',
                 style: TextStyle(color: Colors.black38),
                 textAlign: TextAlign.center,
               ),
-            ),
-            Divider(),
-            Padding(
-              padding: EdgeInsetsGeometry.all(20),
-              child: Text.rich(
+              SizedBox(height: 20),
+              Divider(),
+              SizedBox(height: 20),
+              Text.rich(
                 textAlign: TextAlign.center,
                 TextSpan(
                   children: [
@@ -234,15 +238,10 @@ class HomePage extends StatelessWidget {
                   ],
                 ),
               ),
-            ),
-            Expanded(
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: AppNavigationBar(index: 2),
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
+      bottomNavigationBar: AppNavigationBar(index: 2),
       ),
     );
   }

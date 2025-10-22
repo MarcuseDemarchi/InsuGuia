@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:insuguia/home.dart';
+import 'package:insuguia/paciente/paciente.dart';
 
 class AppNavigationBar extends StatelessWidget{
   // const AppNavigationBar({super.key});
   final int index;
+  final List<Widget> paginas = [
+    PacientePage(),
+    HomePage(),
+    HomePage(),
+    HomePage(),
+    HomePage(),
+  ];
 
-  const AppNavigationBar({
+  AppNavigationBar({
     super.key,
     required this.index
   });
@@ -16,6 +25,9 @@ class AppNavigationBar extends StatelessWidget{
       backgroundColor: Colors.blue[700],
       currentIndex: index,
       iconSize: 30,
+      onTap: (value) => {
+        Navigator.push(context, MaterialPageRoute(builder: (context) => paginas[value]))
+      },
       items: [
         BottomNavigationBarItem(
           icon: Icon(Icons.personal_injury), 
