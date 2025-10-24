@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:insuguia/components/appnavigationbar.dart';
+import 'package:insuguia/components/pacienteinfo.dart';
+import 'package:insuguia/home.dart';
 
 class PacientePage extends StatelessWidget{
   const PacientePage({super.key});
@@ -21,16 +23,116 @@ class PacientePage extends StatelessWidget{
           backgroundColor: Colors.blue[700],
           title: Row(
             children: [
-              Icon(Icons.personal_injury, color: Colors.white,),
+              IconButton(
+                onPressed: () => {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()))
+                },
+                icon: Icon(Icons.arrow_back), 
+                color: Colors.white,),
               Text(' Pacientes', style: TextStyle(color: Colors.white)),
             ],
           )
         ),
         body: Padding(
-          padding: EdgeInsetsGeometry.all(20),
+          padding: EdgeInsetsGeometry.all(10),
           child: ListView(
             children: [
-              
+              PacienteInfo(
+                nomePaciente: 'Paciente Teste', 
+                sexo: 'Masculino', 
+                idade: 28, 
+                peso: 70, 
+                altura: 165, 
+                creatinina: 0.8, 
+                localInternacao: 'Enfermaria'),
+              PacienteInfo(
+                nomePaciente: 'Paciente Teste', 
+                sexo: 'Masculino', 
+                idade: 28, 
+                peso: 70, 
+                altura: 165, 
+                creatinina: 0.8, 
+                localInternacao: 'Enfermaria'),
+              PacienteInfo(
+                nomePaciente: 'Paciente Teste', 
+                sexo: 'Masculino', 
+                idade: 28, 
+                peso: 70, 
+                altura: 165, 
+                creatinina: 0.8, 
+                localInternacao: 'Enfermaria'),
+              PacienteInfo(
+                nomePaciente: 'Paciente Teste', 
+                sexo: 'Masculino', 
+                idade: 28, 
+                peso: 70, 
+                altura: 165, 
+                creatinina: 0.8, 
+                localInternacao: 'Enfermaria'),
+              PacienteInfo(
+                nomePaciente: 'Paciente Teste', 
+                sexo: 'Masculino', 
+                idade: 28, 
+                peso: 70, 
+                altura: 165, 
+                creatinina: 0.8, 
+                localInternacao: 'Enfermaria'),
+              PacienteInfo(
+                nomePaciente: 'Paciente Teste', 
+                sexo: 'Masculino', 
+                idade: 28, 
+                peso: 70, 
+                altura: 165, 
+                creatinina: 0.8, 
+                localInternacao: 'Enfermaria'),
+              PacienteInfo(
+                nomePaciente: 'Paciente Teste', 
+                sexo: 'Masculino', 
+                idade: 28, 
+                peso: 70, 
+                altura: 165, 
+                creatinina: 0.8, 
+                localInternacao: 'Enfermaria'),
+              PacienteInfo(
+                nomePaciente: 'Paciente Teste', 
+                sexo: 'Masculino', 
+                idade: 28, 
+                peso: 70, 
+                altura: 165, 
+                creatinina: 0.8, 
+                localInternacao: 'Enfermaria'),
+              PacienteInfo(
+                nomePaciente: 'Paciente Teste', 
+                sexo: 'Masculino', 
+                idade: 28, 
+                peso: 70, 
+                altura: 165, 
+                creatinina: 0.8, 
+                localInternacao: 'Enfermaria'),
+              PacienteInfo(
+                nomePaciente: 'Paciente Teste', 
+                sexo: 'Masculino', 
+                idade: 28, 
+                peso: 70, 
+                altura: 165, 
+                creatinina: 0.8, 
+                localInternacao: 'Enfermaria'),
+              PacienteInfo(
+                nomePaciente: 'Paciente Teste', 
+                sexo: 'Masculino', 
+                idade: 28, 
+                peso: 70, 
+                altura: 165, 
+                creatinina: 0.8, 
+                localInternacao: 'Enfermaria'),
+              PacienteInfo(
+                nomePaciente: 'Paciente Teste', 
+                sexo: 'Masculino', 
+                idade: 28, 
+                peso: 70, 
+                altura: 165, 
+                creatinina: 0.8, 
+                localInternacao: 'Enfermaria'),
             ],
           ),  
         ),

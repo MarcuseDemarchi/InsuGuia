@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:insuguia/login.dart';
 import 'package:insuguia/register.dart';
 
 void main() {
+  //debugPaintSizeEnabled = true;
   runApp(MaterialApp(
     initialRoute: '/',
     routes: {
