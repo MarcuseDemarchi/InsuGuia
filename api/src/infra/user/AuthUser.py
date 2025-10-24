@@ -3,5 +3,5 @@
 
 
 class AuthUser():    
-    def valid_user():
-        return True
+    def valid_login(usr : str, password : str):
+        pass
