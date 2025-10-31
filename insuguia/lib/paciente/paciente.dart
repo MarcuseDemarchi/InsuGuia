@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:insuguia/components/appnavigationbar.dart';
 import 'package:insuguia/components/pacienteinfo.dart';
-import 'package:insuguia/home.dart';
 
 class PacientePage extends StatelessWidget{
   const PacientePage({super.key});
@@ -25,7 +24,7 @@ class PacientePage extends StatelessWidget{
             children: [
               IconButton(
                 onPressed: () => {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()))
+                    Navigator.pop(context),
                 },
                 icon: Icon(Icons.arrow_back), 
                 color: Colors.white,),
@@ -137,6 +136,7 @@ class PacientePage extends StatelessWidget{
           ),  
         ),
         bottomNavigationBar: AppNavigationBar(index: 0),
+        backgroundColor: Colors.white,
       ),
     );
   }

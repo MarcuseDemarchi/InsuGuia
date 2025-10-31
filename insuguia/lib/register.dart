@@ -68,7 +68,11 @@ class RegisterPage extends StatelessWidget{
                 SizedBox(height: 80),
                 ElevatedButton(
                   onPressed: () => {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()))
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => HomePage()),
+                      (Route<dynamic> route) => false,
+                    )
                   }, 
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,

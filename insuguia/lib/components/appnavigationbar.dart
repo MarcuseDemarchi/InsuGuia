@@ -26,7 +26,9 @@ class AppNavigationBar extends StatelessWidget{
       currentIndex: index,
       iconSize: 30,
       onTap: (value) => {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => paginas[value]))
+        if (value != index) {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => paginas[value]))
+        } 
       },
       items: [
         BottomNavigationBarItem(
