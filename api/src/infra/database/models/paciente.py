@@ -1,8 +1,6 @@
 from sqlalchemy import Column, Integer, String,Float,ForeignKey,DateTime
 from sqlalchemy.sql import func
 from src.infra.database import Base
-from src.infra.database.models.user import User
-from sqlalchemy.types import Enum
 
 class Paciente(Base):
     """ Tabela de pacientes """
