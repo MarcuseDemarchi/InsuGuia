@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:insuguia/components/appnavigationbar.dart';
 import 'package:insuguia/components/pacienteinfo.dart';
+import 'package:insuguia/paciente/pacienteeditar.dart';
 
 class PacienteDetailsPage extends PacienteInfo{
   const PacienteDetailsPage({
@@ -87,7 +88,11 @@ class PacienteDetailsPage extends PacienteInfo{
                       ],
                     ),
                     
-                    IconButton(onPressed: () => {}, icon: Icon(Icons.edit, color: Colors.blue[700],))
+                    IconButton(
+                      onPressed: () => {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => PacienteEditarPage(nomePaciente: nomePaciente, sexo: sexo, idade: idade, peso: peso, altura: altura, creatinina: creatinina, localInternacao: localInternacao)))
+                      }, 
+                      icon: Icon(Icons.edit, color: Colors.blue[700],))
                   ],
                 ),
               ),
