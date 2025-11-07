@@ -38,6 +38,7 @@ class PacienteDetailsPage extends PacienteInfo{
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
+        colorSchemeSeed: Colors.blue[700],
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
             shape: RoundedRectangleBorder(

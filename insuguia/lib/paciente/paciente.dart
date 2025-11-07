@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:insuguia/components/appnavigationbar.dart';
 import 'package:insuguia/components/pacienteinfo.dart';
+import 'package:insuguia/paciente/pacientecadastrar.dart';
 
 class PacientePage extends StatelessWidget{
   const PacientePage({super.key});
@@ -8,10 +9,13 @@ class PacientePage extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(colorSchemeSeed: Colors.blue[700]),
       home: Scaffold(
         floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.blue[700],
-          onPressed: () => {},
+          onPressed: () => {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => PacienteCadastrarPage()))
+          },
           child: Icon(
             Icons.add,
             color: Colors.white,
