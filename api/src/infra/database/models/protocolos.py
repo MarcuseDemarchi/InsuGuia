@@ -14,7 +14,7 @@ class Protocolos(Base):
     prodoencaepatica = Column(Boolean,default=False,nullable=False)
     prosensibilidadeinsu = Column(Boolean,default=False,nullable=False)
     protipoinsubasal = Column(String(20))
-    proescaladispositivo = Column(DECIMAL(1,2))
+    proescaladispositivo = Column(DECIMAL(4,2))
     proposologiabasal = Column(String(50))
     protipoinsulinarapida = Column(String(20))
     prolimitebolusprandial = Column(Integer)
