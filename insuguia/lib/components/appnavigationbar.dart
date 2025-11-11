@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:insuguia/home.dart';
 import 'package:insuguia/paciente/paciente.dart';
+import 'package:insuguia/protocolo/protocolo.dart';
 
 class AppNavigationBar extends StatelessWidget{
   // const AppNavigationBar({super.key});
   final int index;
   final List<Widget> paginas = [
     PacientePage(),
-    HomePage(),
+    ProtocoloPage(),
     HomePage(),
     HomePage(),
     HomePage(),
