@@ -4,7 +4,7 @@ url = "http://127.0.0.1:5000/validUser"
 
 params = {
     "user_email" : "demarchimarcu112s20014@gmail.com",
-    "password" : "Teste@123",
+    "senha_acesso" : "Teste@123",
     }
 
 hearder = {"Content-Type": "application/json"}
