@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:insuguia/components/appnavigationbar.dart';
 import 'package:insuguia/components/pacienteinfo.dart';
 
@@ -177,7 +176,28 @@ class PacienteEditarPage extends PacienteInfo{
                         padding: EdgeInsets.all(20),
                         shape: RoundedRectangleBorder(borderRadius: BorderRadiusGeometry.circular(10))
                       ),
-                      onPressed: (){}, 
+                      onPressed: () => showDialog(
+                        context: context, 
+                        builder: (context) => AlertDialog(
+                          title: Text('Excluir Paciente?'),
+                          content: Text('Deseja realmente excluir o paciente selecionado?'),
+                          actions: [
+                            TextButton.icon(
+                              onPressed: () =>{ 
+                                Navigator.pop(context)
+                              }, 
+                              label: Text('Cancelar'),
+                              icon: Icon(Icons.arrow_back),
+                            ),
+                            TextButton.icon(
+                              onPressed: () =>{ 
+                                Navigator.pop(context)
+                              }, 
+                              label: Text('Excluir', style: TextStyle(color: Colors.red),),
+                              icon: Icon(Icons.delete, color: Colors.red,),
+                            ),
+                          ],
+                        )), 
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         spacing: 10,
