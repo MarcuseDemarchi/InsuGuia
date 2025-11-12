@@ -7,7 +7,6 @@ class Paciente(Base):
     __tablename__ = "tbpaciente"
 
     paccodigo = Column(Integer,primary_key=True,index=True,autoincrement=True)
-    usrcodigo = Column(Integer,ForeignKey("tbuser.usrcodigo"),nullable=False)
     pacnome = Column(String,nullable=False)
     pacsexo = Column(String,nullable=False)
     pacidade = Column(Integer,nullable=False)
