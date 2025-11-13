@@ -126,10 +126,10 @@ class ProtocoloCadastrarPage extends StatelessWidget{
               enableFilter: true,
               label: Text('Escala (UI) do dispositivo', style: TextStyle(color: Colors.blue[700])),
               dropdownMenuEntries: [
-                DropdownMenuEntry(value: '0.5', label: '0.5 UI'),
-                DropdownMenuEntry(value: '1', label: '1 UI'),
-                DropdownMenuEntry(value: '2', label: '2 UI'),
-                // TODO: ao selecionar 2 -> menságem de insulina arredondada em pares 
+                DropdownMenuEntry(value: 0.5, label: '0.5 UI'),
+                DropdownMenuEntry(value: 1, label: '1 UI'),
+                DropdownMenuEntry(value: 2, label: '2 UI'),
+                // TODO: ao selecionar 2 -> mensagem de insulina arredondada em pares 
               ]                    
             ),
             SizedBox(height: 20),

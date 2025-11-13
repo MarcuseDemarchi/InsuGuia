@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:insuguia/components/appnavigationbar.dart';
 import 'package:insuguia/components/protocoloinfo.dart';
+import 'package:insuguia/paciente/paciente.dart';
 import 'package:insuguia/paciente/pacienteselect.dart';
 
 class ProtocoloPage extends StatelessWidget{
@@ -21,6 +22,7 @@ class ProtocoloPage extends StatelessWidget{
         )
       ),
       home: Scaffold(
+        backgroundColor: Colors.white,
         appBar: AppBar(
           backgroundColor: Colors.blue[700],
           title: Row(
@@ -58,28 +60,67 @@ class ProtocoloPage extends StatelessWidget{
               ),
             ),
             SizedBox(height: 10,),
-            ProtocoloInfo(),
-            ProtocoloInfo(),
-            ProtocoloInfo(),
-            ProtocoloInfo(),
-            ProtocoloInfo(),
-            ProtocoloInfo(),
-            ProtocoloInfo(),
-            ProtocoloInfo(),
-            ProtocoloInfo(),
-            ProtocoloInfo(),
-            ProtocoloInfo(),
-            ProtocoloInfo(),
-            ProtocoloInfo(),
-            ProtocoloInfo(),
-            ProtocoloInfo(),
-            ProtocoloInfo(),
-            ProtocoloInfo(),
-            ProtocoloInfo(),
+            ProtocoloInfo(
+              protocolo: Protocolo(
+                id: 1,
+                paciente: Paciente(
+                nomePaciente: 'Paciente Teste', 
+                sexo: 'Masculino', 
+                idade: 28, 
+                peso: 70, 
+                altura: 165, 
+                creatinina: 0.8, 
+                localInternacao: 'Enfermaria'),
+                dieta: 'oral_boa',
+                corticoide: 'nao', 
+                hepatica: 'nao', 
+                sensibilidade: 'media', 
+                ultimaGlicemia: 220, 
+                escala: 1, 
+                tipoBasal: 'nph', 
+                posologia: '3_manha_almoco_noite', 
+                tipoAcaoRapida: 'regular', 
+                bolusPrandial: 100,
+                dataEmissao: DateTime(2025,11,13))
+            ),
           ],
         ),
         bottomNavigationBar: AppNavigationBar(index: 1),
       ),
     );
   }
+}
+
+class Protocolo {
+  final int id;
+  final Paciente paciente;
+  final String dieta;
+  final String corticoide;
+  final String hepatica;
+  final String sensibilidade;
+  final int ultimaGlicemia;
+  final double escala;
+  final String tipoBasal;
+  final String posologia;
+  final String tipoAcaoRapida;
+  final int bolusPrandial;
+  final DateTime dataEmissao;
+
+  const Protocolo(
+    {
+    required this.id,
+    required this.paciente, 
+    required this.dieta, 
+    required this.corticoide, 
+    required this.hepatica, 
+    required this.sensibilidade, 
+    required this.ultimaGlicemia, 
+    required this.escala, 
+    required this.tipoBasal, 
+    required this.posologia, 
+    required this.tipoAcaoRapida, 
+    required this.bolusPrandial,
+    required this.dataEmissao
+    }
+  );
 }
