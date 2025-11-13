@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:insuguia/components/appnavigationbar.dart';
 import 'package:insuguia/components/protocoloinfo.dart';
+import 'package:insuguia/paciente/pacienteselect.dart';
 
 class ProtocoloPage extends StatelessWidget{
   const ProtocoloPage({super.key});
@@ -38,7 +39,7 @@ class ProtocoloPage extends StatelessWidget{
         floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.blue[700],
           onPressed: () => {
-            
+            Navigator.push(context, MaterialPageRoute(builder: (context) => PacienteSelectPage()))
           },
           child: Icon(
             Icons.add,

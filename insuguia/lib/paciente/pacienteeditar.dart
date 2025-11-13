@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:insuguia/components/appnavigationbar.dart';
-import 'package:insuguia/components/pacienteinfo.dart';
+import 'package:insuguia/paciente/paciente.dart';
 
-class PacienteEditarPage extends PacienteInfo{
+class PacienteEditarPage extends StatelessWidget{
+  final Paciente paciente;
+
   const PacienteEditarPage({
     super.key,
-    required super.nomePaciente, 
-    required super.sexo, 
-    required super.idade, 
-    required super.peso, 
-    required super.altura, 
-    required super.creatinina, 
-    required super.localInternacao}
-  );
+    required this.paciente,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +45,7 @@ class PacienteEditarPage extends PacienteInfo{
           child: ListView(
             children: [
               TextField(
-                controller: TextEditingController(text: nomePaciente),
+                controller: TextEditingController(text: paciente.nomePaciente),
                 decoration: InputDecoration(
                   label: Text('Nome Completo', style: TextStyle(color: Colors.blue[700]),),
                 ),
@@ -63,7 +59,7 @@ class PacienteEditarPage extends PacienteInfo{
                   Expanded(
                     flex: 3,
                     child: TextField(
-                      controller: TextEditingController(text: idade.toString()),
+                      controller: TextEditingController(text: paciente.idade.toString()),
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                         label: Text('Idade', style: TextStyle(color: Colors.blue[700]),),
@@ -75,7 +71,7 @@ class PacienteEditarPage extends PacienteInfo{
                     child: DropdownMenu(
                       width: double.infinity,
                       enableFilter: true,
-                      initialSelection: sexo,
+                      initialSelection: paciente.sexo,
                       label: Text('Sexo', style: TextStyle(color: Colors.blue[700])),
                       dropdownMenuEntries: [
                         DropdownMenuEntry(value: 'Masculino', label: 'Masculino'),
@@ -88,7 +84,7 @@ class PacienteEditarPage extends PacienteInfo{
               const SizedBox(height: 20),
               Expanded(
                 child: TextField(
-                  controller: TextEditingController(text: creatinina.toString()),
+                  controller: TextEditingController(text: paciente.creatinina.toString()),
                   keyboardType: TextInputType.numberWithOptions(decimal: true),
                   decoration: InputDecoration(
                     label: Text('Creatinina (ml/dL)', style: TextStyle(color: Colors.blue[700]),),
@@ -102,7 +98,7 @@ class PacienteEditarPage extends PacienteInfo{
                 children: [
                   Expanded(
                     child: TextField(
-                      controller: TextEditingController(text: peso.toString()),
+                      controller: TextEditingController(text: paciente.peso.toString()),
                       keyboardType: TextInputType.numberWithOptions(decimal: true),
                       decoration: InputDecoration(
                         label: Text('Peso (Kg)', style: TextStyle(color: Colors.blue[700]),),
@@ -111,7 +107,7 @@ class PacienteEditarPage extends PacienteInfo{
                   ),
                   Expanded(
                     child: TextField(
-                      controller: TextEditingController(text: altura.toString()),
+                      controller: TextEditingController(text: paciente.altura.toString()),
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                         label: Text('Altura (cm)', style: TextStyle(color: Colors.blue[700]),),
@@ -125,7 +121,7 @@ class PacienteEditarPage extends PacienteInfo{
                 child: DropdownMenu(
                   width: double.infinity,
                   enableFilter: true,
-                  initialSelection: localInternacao,
+                  initialSelection: paciente.localInternacao,
                   label: Text('Local de Internação', style: TextStyle(color: Colors.blue[700])),
                   dropdownMenuEntries: [
                     DropdownMenuEntry(value: 'Enfermaria', label: 'Enfermaria'),

@@ -1,39 +1,16 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:insuguia/components/appnavigationbar.dart';
-import 'package:insuguia/components/pacienteinfo.dart';
+import 'package:insuguia/paciente/paciente.dart';
 import 'package:insuguia/paciente/pacienteeditar.dart';
+import 'package:insuguia/protocolo/protocolocadastrar.dart';
 
-class PacienteDetailsPage extends PacienteInfo{
+class PacienteDetailsPage extends StatelessWidget{
+  final Paciente paciente;
+  
   const PacienteDetailsPage({
     super.key,
-    required super.nomePaciente, 
-    required super.sexo, 
-    required super.idade, 
-    required super.peso, 
-    required super.altura,
-    required super.creatinina, 
-    required super.localInternacao,
+    required this.paciente,
   });
-
-  int calculaTFG(){
-    double k;
-    double a;
-    double x;
-
-    k = sexo == 'Masculino' ? 0.9 : 0.7;
-    a = sexo == 'Masculino' ? -0.302 : 0.7;
-    x = sexo == 'Masculino' ? 1 : 1.012;
-  
-    num tfg = 142 * pow(min(creatinina/k,1),a) * pow(max(creatinina/k, 1), -1200) * pow(0.9938, idade)*x;
-
-    return tfg.round();
-  }
-
-  double calculaIMC(){
-    return peso / pow(altura/100, 2);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,8 +58,8 @@ class PacienteDetailsPage extends PacienteInfo{
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(nomePaciente, style: TextStyle(fontWeight: FontWeight.bold),),
-                            Text("$sexo | $idade Anos"),
+                            Text(paciente.nomePaciente, style: TextStyle(fontWeight: FontWeight.bold),),
+                            Text("${paciente.sexo} | ${paciente.idade} Anos"),
                           ],
                         ),
                       ],
@@ -90,7 +67,7 @@ class PacienteDetailsPage extends PacienteInfo{
                     
                     IconButton(
                       onPressed: () => {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => PacienteEditarPage(nomePaciente: nomePaciente, sexo: sexo, idade: idade, peso: peso, altura: altura, creatinina: creatinina, localInternacao: localInternacao)))
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => PacienteEditarPage(paciente: paciente,)))
                       }, 
                       icon: Icon(Icons.edit, color: Colors.blue[700],))
                   ],
@@ -106,13 +83,13 @@ class PacienteDetailsPage extends PacienteInfo{
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        InfoContainerWithTitle(icon: Icons.scale, title: ' Peso', value: ' $peso kg'),
-                        InfoContainerWithTitle(icon: Icons.height, title: ' Altura', value: '${altura/100} m'),
+                        InfoContainerWithTitle(icon: Icons.scale, title: ' Peso', value: ' ${paciente.peso} kg'),
+                        InfoContainerWithTitle(icon: Icons.height, title: ' Altura', value: '${paciente.altura/100} m'),
                       ],
                     ),
                     Row(
                       children: [
-                        InfoContainerWithTitle(icon: Icons.bed, title: " Local de Internação", value: localInternacao),
+                        InfoContainerWithTitle(icon: Icons.bed, title: " Local de Internação", value: paciente.localInternacao),
                       ],
                     ),
                     Row(
@@ -120,13 +97,13 @@ class PacienteDetailsPage extends PacienteInfo{
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        InfoContainerWithTitle(icon: Icons.science_rounded, title: ' Creatinina', value: "$creatinina mg/dL"),
-                        InfoContainerWithTitle(icon: Icons.fitness_center_rounded, title: ' IMC', value: "${calculaIMC().toStringAsFixed(1)} kg/m²"),
+                        InfoContainerWithTitle(icon: Icons.science_rounded, title: ' Creatinina', value: "${paciente.creatinina} mg/dL"),
+                        InfoContainerWithTitle(icon: Icons.fitness_center_rounded, title: ' IMC', value: "${paciente.calculaIMC().toStringAsFixed(1)} kg/m²"),
                       ],  
                     ),
                     Row(
                       children: [
-                        InfoContainerWithTitle(icon: Icons.calculate_rounded, title: ' TFG (CKD-EPI 2021)', value: "${calculaTFG().toStringAsFixed(0)} mL/min/1,73m²"),
+                        InfoContainerWithTitle(icon: Icons.calculate_rounded, title: ' TFG (CKD-EPI 2021)', value: "${paciente.calculaTFG().toStringAsFixed(0)} mL/min/1,73m²"),
                       ],
                     ),
                     Row(
@@ -141,12 +118,14 @@ class PacienteDetailsPage extends PacienteInfo{
                           child: Padding(
                             padding: EdgeInsetsGeometry.only(top: 20),
                             child: ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => ProtocoloCadastrarPage(paciente: paciente)));
+                              },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.blue[700],
                               ),
                               child: Text(
-                                "Realizar Prescrição",
+                                "Realizar Protocolo",
                                 style: TextStyle(color: Colors.white),
                               )
                             ),
@@ -158,15 +137,6 @@ class PacienteDetailsPage extends PacienteInfo{
                   ],
                 ),
               ),
-              // Text(nomePaciente),
-              // Text(sexo),
-              // Text(idade.toString()),
-              // Text(peso.toString()),
-              // Text(altura.toString()),
-              // Text(creatinina.toString()),
-              // Text(localInternacao.toString()),
-              // Text((peso / ((altura / 100) * (altura / 100))).toStringAsFixed(1)),
-              // Text(calculaTFG().toString()),
             ],
           ),
         ),
