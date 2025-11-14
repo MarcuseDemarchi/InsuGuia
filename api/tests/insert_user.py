@@ -4,7 +4,7 @@ url = "http://127.0.0.1:5000/cadUser"
 
 params = {
     "user_name_full" : "teste_marcus",
-    "password" : "Teste@123",
+    "password" : "Aesaaat123e@",
     "user_email" : "demarchimarcu112s20014@gmail.com"
     }
 
