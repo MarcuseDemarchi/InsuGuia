@@ -171,6 +171,7 @@ class Paciente {
     required this.creatinina, 
     required this.localInternacao,
   });
+  
   int calculaTFG(){
     double k;
     double a;

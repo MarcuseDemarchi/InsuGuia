@@ -29,7 +29,7 @@ class ProtocoloInfo extends StatelessWidget{
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Paciente: ${protocolo.paciente.nomePaciente}', style: TextStyle(fontWeight: FontWeight.bold)),
+                    Text(protocolo.paciente.nomePaciente, style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black)),
                     Row(
                       spacing: 10,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

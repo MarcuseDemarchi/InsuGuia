@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:insuguia/home.dart';
 import 'package:insuguia/paciente/paciente.dart';
+import 'package:insuguia/prescricao/prescricao.dart';
 import 'package:insuguia/protocolo/protocolo.dart';
 
 class AppNavigationBar extends StatelessWidget{
@@ -10,7 +11,7 @@ class AppNavigationBar extends StatelessWidget{
     PacientePage(),
     ProtocoloPage(),
     HomePage(),
-    HomePage(),
+    PrescricaoPage(),
     HomePage(),
   ];
 

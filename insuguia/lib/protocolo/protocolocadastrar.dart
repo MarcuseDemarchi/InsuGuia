@@ -216,10 +216,16 @@ class ProtocoloCadastrarPage extends StatelessWidget{
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blue[700],
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadiusGeometry.circular(5)
+                )
               ),
-              child: Text(
-                "Gerar prescrição sugerida",
-                style: TextStyle(color: Colors.white),
+              child: Padding(
+                padding: EdgeInsetsGeometry.only(top: 10, bottom: 10),
+                child: Text(
+                  "Gerar prescrição sugerida",
+                  style: TextStyle(color: Colors.white),
+                )
               )
             ),
           ],
