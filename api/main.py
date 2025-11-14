@@ -8,11 +8,18 @@ from src.core.core_paciente import CorePaciente
 Base.metadata.create_all(bind=engine)
 
 app = Flask(__name__)
+app.config["JSON_AS_ASCII"] = True
 
 @app.get("/")
 def index():
     """ Function index do projeto """
     return "Api esta funcionando corretamente"
+
+@app.get("/getPacientes")
+def get_todos_pacientes():
+    """ Retorna todos os pacientes presentes no banco de dados """
+    list_pacientes = CorePaciente.get_pacientes() 
+    return list_pacientes
 
 @app.post("/cadPaciente")
 def cadastrar_paciente():
@@ -20,16 +27,34 @@ def cadastrar_paciente():
     data_paciente = request.json
 
     if not data_paciente:
-        return jsonify({"message" : "Atenção : dados não informados!"})
+        return jsonify({"message" : "Atenção : dados não informados!"}),400
     
     pacname = data_paciente.get("paciente_nome")
     pacsexo = data_paciente.get("paciente_sexo")
+    pacidade = data_paciente.get("paciente_idade")
     pacpeso = data_paciente.get("paciente_peso")
     pacaltura = data_paciente.get("paciente_altura")
     paccreatinina = data_paciente.get("paciente_creatinina")
     pacimc = data_paciente.get("paciente_imc")
     pactfg = data_paciente.get("paciente_tfg")
 
+    pac_obj = CorePaciente(pacname,pacsexo,
+                    pacidade, pacpeso,
+                    pacaltura,paccreatinina,
+                    pacimc,pactfg)
+    
+    data_paciente_valido,txt_retorno = pac_obj.valid_campos()
+
+    if not data_paciente_valido:
+        return jsonify({"message" : f"{txt_retorno}"}),400
+    
+    try:
+        pac_obj.insert_paciente()
+        return jsonify({"message" : "Paciente inserido com sucesso!"})
+    except Exception as e:
+        print(f"Erro ao inserir paciente: {e}")
+        return jsonify({"message" : f"Erro interno ao inserir paciente: {e}"}), 500
+    
 @app.post("/validUser")
 def user_valid():
     """ Valida o acesso do usuário """
@@ -78,4 +103,4 @@ def user_register():
         return jsonify({"message" : f"Ocorreu um erro ao tentar registrar usuario"})
 
 if __name__ == "__main__":
-    app.run('127.0.0.1',5000)
+    app.run('10.4.241.20',5000)
