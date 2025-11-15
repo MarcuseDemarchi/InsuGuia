@@ -61,4 +61,6 @@ class CorePaciente:
         with SessionLocal() as db:
             pacientes = db.query(Paciente).all()            
         
-        return pacientes
+        list_pacientes = [paciente.to_dict() for paciente in pacientes]
+
+        return list_pacientes
