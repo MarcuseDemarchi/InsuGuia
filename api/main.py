@@ -1,7 +1,6 @@
 from flask import Flask,request,jsonify
-from src.infra.database import Base,engine
-import src.infra.database.models
 from src.core.core_user import CoreUser
+from src.infra.database import Base,engine
 from src.core.core_paciente import CorePaciente
 
 
@@ -100,7 +99,7 @@ def user_register():
         )
         return jsonify({"message" : f"Usuario cadastrado com sucesso!"})
     except ValueError as e:
-        return jsonify({"message" : f"Ocorreu um erro ao tentar registrar usuario"})
+        return jsonify ({"message" : f"Ocorreu um erro ao tentar registrar usuario"})
 
 if __name__ == "__main__":
-    app.run('10.4.241.20',5000)
+    app.run('127.0.0.1',5000)
