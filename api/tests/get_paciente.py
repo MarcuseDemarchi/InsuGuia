@@ -1,6 +1,6 @@
 import requests
 
-url = "http://10.4.241.20:5000/getPacientes"
+url = "http://127.0.0.1:5000/getPacientes"
 
 hearder = {"Content-Type": "application/json"}
 

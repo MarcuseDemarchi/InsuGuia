@@ -1,9 +1,9 @@
 import requests
 
-url = "http://10.4.241.20:5000/cadPaciente"
+url = "http://127.0.0.1:5000/cadPaciente"
 
 params = {
-    "paciente_nome" : "Marcus Demarchi",
+    "paciente_nome" : "Davi Jefferson Chiquetti",
     "paciente_sexo" : "Masculino",
     "paciente_idade" : 10,
     "paciente_peso" : 10,
