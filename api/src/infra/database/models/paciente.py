@@ -21,3 +21,17 @@ class Paciente(Base):
         onupdate=func.now(),
         nullable=False
         )
+    
+    def to_dict(self):
+        return {
+            "paccodigo": self.paccodigo,
+            "pacnome": self.pacnome,
+            "pacsexo": self.pacsexo,
+            "pacidade": self.pacidade,
+            "pacpeso": self.pacpeso,
+            "pacaltura": self.pacaltura,
+            "pacimc": self.pacimc,
+            "paccreatinina": self.paccreatinina,
+            "pactfgckdepi": self.pactfgckdepi,
+            "paccriado": self.paccriado.strftime("%Y-%m-%d %H:%M:%S") if self.paccriado else None
+        }
