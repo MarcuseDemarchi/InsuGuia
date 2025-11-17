@@ -65,7 +65,11 @@ class PrescricaoPage extends StatelessWidget{
                   dataEmissao: DateTime(2025,11,13)  
                 ), 
                 dataEmissao: DateTime(2025,11,13), 
-                textoPrescricao: 'Teste de prescrição'
+                tipoDieta: 'Dieta para portadora de diabetes — Não Crítico.',
+                monitoracao: 'Glicemia capilar antes do café, do almoço, do jantar e às 22 horas.',
+                basalTotal: 16,
+                divisaoBasal: 'NPH: 5 UI (SC) às 06:00 + 5 UI (SC) às 11:00 + 5 UI (SC) às 22:00 (3 doses)',
+                cetonemia: 'Pesquisar cetonemia se glicemia > 300 mg/dL.'
               ),
             )
           ],
@@ -80,12 +84,20 @@ class Prescricao {
   final int id;
   final Protocolo protocolo;
   final DateTime dataEmissao;
-  final String textoPrescricao;
+  final String tipoDieta;
+  final String monitoracao;
+  final int basalTotal;
+  final String divisaoBasal;
+  final String cetonemia;
 
   Prescricao({
     required this.id,
     required this.protocolo,
     required this.dataEmissao, 
-    required this.textoPrescricao
+    required this.tipoDieta,
+    required this.monitoracao,
+    required this.basalTotal,
+    required this.divisaoBasal,
+    required this.cetonemia,
   });
 }

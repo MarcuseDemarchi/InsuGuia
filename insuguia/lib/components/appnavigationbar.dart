@@ -50,8 +50,8 @@ class AppNavigationBar extends StatelessWidget{
           label: 'Prescrição',
           backgroundColor: Colors.blue[700]),
         BottomNavigationBarItem(
-          icon: Icon(Icons.king_bed), 
-          label: 'Alta',
+          icon: Icon(Icons.calendar_today_outlined), 
+          label: 'Acompanhamento',
           backgroundColor: Colors.blue[700]),
     ]);
   }

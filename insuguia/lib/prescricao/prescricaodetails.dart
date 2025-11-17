@@ -130,13 +130,134 @@ class PrescricaoDetailsPage extends StatelessWidget{
               ],
             ),
             SizedBox(height: 20),
-            Container(
-              padding: EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.black38),
-                borderRadius: BorderRadius.circular(10)
+            InputDecorator(
+              decoration: InputDecoration(
+                label: Text('Prescrição'),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(5)
+                )
               ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('1. Dieta', style: TextStyle(color: Colors.blue[700], fontWeight: FontWeight.bold),),
+                  Text(prescricao.tipoDieta),
+                  SizedBox(height: 20),
+                  Text('2. Monitorização', style: TextStyle(color: Colors.blue[700], fontWeight: FontWeight.bold),),
+                  Text(prescricao.monitoracao),
+                  SizedBox(height: 20),
+                  Text('3. Insulina basal - ${prescricao.protocolo.tipoBasal}', style: TextStyle(color: Colors.blue[700], fontWeight: FontWeight.bold),),
+                  Text('Basal total estimada: ${prescricao.basalTotal} UI/dia.', style: TextStyle(fontWeight: FontWeight.bold),),                  
+                  Text(prescricao.divisaoBasal),
+                  SizedBox(height: 20),
+                  Text('4. Insulina de ação rápida - ${prescricao.protocolo.tipoAcaoRapida}', style: TextStyle(color: Colors.blue[700], fontWeight: FontWeight.bold),),
+                  Text('data'),
+                  SizedBox(height: 20),
+                  Text('5. Cetonemia', style: TextStyle(color: Colors.blue[700], fontWeight: FontWeight.bold),),
+                  Text(prescricao.cetonemia),
+                  SizedBox(height: 20),
+                  Text('6. Hipoglicemia — Conduta', style: TextStyle(color: Colors.blue[700], fontWeight: FontWeight.bold),),
+                  SizedBox(height: 10),
+                  Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      border: BoxBorder.all(color: Colors.red),
+                      borderRadius: BorderRadius.circular(5),
+                      color: Colors.red[100]
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Hipoglicemia:', style: TextStyle(fontWeight: FontWeight.bold),),
+                        Text('Se glicemia capilar < 70 mg/dL —'),
+                        Text.rich(
+                          TextSpan(
+                            children: [
+                              TextSpan(
+                                text: '• Paciente consciente e capaz de deglutir: oferecer '
+                              ),
+                              TextSpan(
+                                text: '30 mL de glicose 50%',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              TextSpan(
+                                text: ' (ou líquido açucarado).'
+                              )
+                            ]
+                          )
+                        ),
+                        Text.rich(
+                          TextSpan(
+                            children: [
+                              TextSpan(
+                                text: '• Inconsciente ou incapaz de deglutir: aplicar '
+                              ),
+                              TextSpan(
+                                text: '30 mL de glicose 50% IV',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              TextSpan(
+                                text: ' em veia calibrosa.'
+                              )
+                            ]
+                          )
+                        ),
+                        Text('• Repetir a glicemia capilar e a administração da glicose a cada 15 minutos até que a glicemia esteja > 100 mg/dL.')
+                      ],
+                    ),
+                  )
+                ],
+              )
             ),
+            SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              spacing: 20,
+              children: [
+                Expanded(
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blue[700],
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadiusGeometry.circular(5),
+                      )
+                    ),
+                    onPressed: () {
+
+                    }, 
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.copy, color: Colors.white,),
+                        Text('Copiar', style: TextStyle(color: Colors.white),)
+                      ],
+                    )
+                  ), 
+                ),
+                Expanded(
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadiusGeometry.circular(5),
+                        side: BorderSide(color: const Color.fromRGBO(25, 118, 210, 1))
+                      )
+                    ),
+                    onPressed: () {
+
+                    }, 
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.picture_as_pdf_outlined, color: Colors.blue[700],),
+                        Text('Exportar (PDF)', style: TextStyle(color: Colors.blue[700]),)
+                      ],
+                    )
+                  ), 
+                ),
+              ],
+            )
           ],
         ),
         bottomNavigationBar: AppNavigationBar(index: 3),
