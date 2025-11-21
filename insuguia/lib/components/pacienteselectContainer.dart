@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:insuguia/acompanhamento/acompanhamento.dart';
 import 'package:insuguia/paciente/paciente.dart';
 import 'package:insuguia/protocolo/protocolocadastrar.dart';
 
 class PacienteSelectContainer extends StatelessWidget{
-  const PacienteSelectContainer({super.key, required this.paciente});
+  const PacienteSelectContainer({super.key, required this.paciente, required this.selectToProtocol});
   
   final Paciente paciente;
+  final bool selectToProtocol;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +38,11 @@ class PacienteSelectContainer extends StatelessWidget{
           ),
           IconButton.filled(
             onPressed: () => {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => ProtocoloCadastrarPage(paciente: paciente)))
+              if (selectToProtocol) {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => ProtocoloCadastrarPage(paciente: paciente)))
+              } else {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => AcompanhamentoPage(paciente: paciente)))
+              }
             },
             style: IconButton.styleFrom(backgroundColor: Colors.blue[700]),
             icon: Icon(Icons.arrow_forward, color: Colors.white,)

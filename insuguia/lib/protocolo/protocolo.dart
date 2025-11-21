@@ -41,7 +41,7 @@ class ProtocoloPage extends StatelessWidget{
         floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.blue[700],
           onPressed: () => {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => PacienteSelectPage()))
+            Navigator.push(context, MaterialPageRoute(builder: (context) => PacienteSelectPage(isProtocolo: true,)))
           },
           child: Icon(
             Icons.add,

@@ -1,10 +1,16 @@
+
 import 'package:flutter/material.dart';
 import 'package:insuguia/components/appnavigationbar.dart';
 import 'package:insuguia/components/pacienteselectContainer.dart';
 import 'package:insuguia/paciente/paciente.dart';
 
 class PacienteSelectPage extends StatelessWidget{
-  const PacienteSelectPage({super.key});
+  final bool isProtocolo; 
+
+  const PacienteSelectPage({
+    super.key, 
+    required this.isProtocolo
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +43,7 @@ class PacienteSelectPage extends StatelessWidget{
             ),
             SizedBox(height: 20),
             PacienteSelectContainer(
+              selectToProtocol: isProtocolo,
               paciente: Paciente(
                 nomePaciente: 'Paciente Teste', 
                 sexo: 'Masculino', 
@@ -48,6 +55,7 @@ class PacienteSelectPage extends StatelessWidget{
               )
             ),
             PacienteSelectContainer(
+              selectToProtocol: isProtocolo,
               paciente: Paciente(
                 nomePaciente: 'Paciente Teste', 
                 sexo: 'Masculino', 
@@ -59,6 +67,7 @@ class PacienteSelectPage extends StatelessWidget{
               )
             ),
             PacienteSelectContainer(
+              selectToProtocol: isProtocolo,
               paciente: Paciente(
                 nomePaciente: 'Paciente Teste', 
                 sexo: 'Masculino', 
@@ -70,6 +79,7 @@ class PacienteSelectPage extends StatelessWidget{
               )
             ),
             PacienteSelectContainer(
+              selectToProtocol: isProtocolo,
               paciente: Paciente(
                 nomePaciente: 'Paciente Teste', 
                 sexo: 'Masculino', 
