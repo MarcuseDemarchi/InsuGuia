@@ -18,7 +18,7 @@ class Protocolos(Base):
     proposologiabasal = Column(String(50))
     protipoinsulinarapida = Column(String(20))
     prolimitebolusprandial = Column(Integer)
-    proclicemiaatual = Column(Integer,nullable=False)
+    proglicemiaatual = Column(Integer,nullable=False)
 
     progestante = Column(Boolean,default=False)
     prosemanasgestantes = Column(Integer)
