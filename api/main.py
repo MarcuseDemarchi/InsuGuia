@@ -20,6 +20,22 @@ def get_todos_pacientes():
     list_pacientes = CorePaciente.get_pacientes() 
     return list_pacientes
 
+@app.post("/cadProtocolo")
+def cadastrar_protocolo_paciente():
+    """ Cadastra um protocolo para o paciente """
+    data_protocolo_paciente = request.json
+
+    if not data_protocolo_paciente:
+        return jsonify({"message" : "Atenção : Os dados de cadastro do protocolo do paciente não foi informado"}),400
+    
+    prodieta = data_protocolo_paciente.get("protocolo_dieta")
+    prousocorticoide = data_protocolo_paciente.get("protocolo_corticosteroide")
+    prodoencahepatica = data_protocolo_paciente.get("protocolo_doenca_hepatica")
+    prosensibilidadeinsu = data_protocolo_paciente.get("protocolo_sensibilidade_insulina")
+    proglicemiaatual= data_protocolo_paciente.get("protocolo_glicemia_atual")
+    
+
+
 @app.post("/cadPaciente")
 def cadastrar_paciente():
     """ Cadastra novos pacientes """

@@ -9,9 +9,9 @@ class Protocolos(Base):
 
     paccodigo = Column(Integer,ForeignKey("tbpaciente.paccodigo"),nullable=False)    
     prodieta = Column(String(20),nullable=False)
-    prousocorticoide = Column(Boolean,nullable=False)
-    protipocorticoide = Column(String(20),nullable=False)
-    prodoencaepatica = Column(Boolean,default=False,nullable=False)
+    prousocorticosteroide = Column(Boolean,nullable=False)
+    protipocorticosteroide = Column(String(20),nullable=False)
+    prodoencahepatica = Column(Boolean,default=False,nullable=False)
     prosensibilidadeinsu = Column(Boolean,default=False,nullable=False)
     protipoinsubasal = Column(String(20))
     proescaladispositivo = Column(DECIMAL(4,2))
