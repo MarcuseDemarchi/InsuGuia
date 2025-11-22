@@ -324,7 +324,10 @@ def user_register():
             password=password,
             user_email=user_email
         )
-        return jsonify({"message" : f"Usuario cadastrado com sucesso!"})
+        return jsonify({
+            "code" : 201,
+            "message": f"Usuario cadastrado com sucesso!"
+        })
     except ValueError as e:
         return jsonify ({
             "code" : 500,

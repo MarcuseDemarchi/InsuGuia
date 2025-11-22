@@ -37,7 +37,7 @@ class LoginPage extends StatelessWidget{
         context: context, 
         builder: (context) => AlertDialog(
           backgroundColor: Colors.white,
-          title: Text('Erro Ao Cadastrar Usuário'),
+          title: Text('Erro de Login'),
           content: Text(responseJson['message']),
           actions: [
             TextButton(

@@ -19,8 +19,11 @@ class PacienteCadastrarPage extends StatelessWidget{
   final TextEditingController controllerClassificacao = TextEditingController();
 
   Future<void> cadastraPaciente(BuildContext context)async {
-    
-    final pacienteCriado = Paciente(
+  final http.Response response;
+  final Paciente pacienteCriado;
+
+    try{
+      pacienteCriado = Paciente(
       nomePaciente: controllerNome.text, 
       sexo: controllerSexo.text, 
       idade: int.parse(controllerIdade.text), 
@@ -28,9 +31,30 @@ class PacienteCadastrarPage extends StatelessWidget{
       altura: double.parse(controllerAltura.text), 
       creatinina: double.parse(controllerCreatinina.text), 
       localInternacao: controllerLocalInternacao.text
-    );
+      );
+    }
+    catch (exeption){
+      showDialog(
+        context: context, 
+        builder: (context) => AlertDialog(
+          backgroundColor: Colors.white,
+          title: Text('Erro Ao Cadastrar Paciente'),
+          content: Text('Por favor preencha todos os campos solicitados.'),
+          actions: [
+            TextButton(
+              onPressed: () =>{ 
+                Navigator.pop(context)
+              },  
+              child: Text('Ok', style: TextStyle(color: Colors.blue[700]),),
+            ),
+          ],
+        ));   
 
-    final response = await http.post(
+      return;
+    }
+    
+
+    response = await http.post(
       Uri.parse('http://127.0.0.1:5000/cadPaciente'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
@@ -46,7 +70,7 @@ class PacienteCadastrarPage extends StatelessWidget{
         "paciente_tfg" : pacienteCriado.calculaTFG(),
         "paciente_localinternacao" : pacienteCriado.localInternacao,
       }),
-    );
+      );
 
     dynamic responseJson = jsonDecode(response.body);
 
