@@ -1,20 +1,15 @@
-from sqlalchemy import Column, Integer, String, ForeignKey,DateTime
+from sqlalchemy import Column, Integer, ForeignKey, DateTime, Text
 from sqlalchemy.sql import func
 from src.infra.database import Base
 
-class Prescricao(Base):
-    """ Tabela de classificacoes prescrições"""
-    __tablename__ = "tbprescricao"
+class Prescricoes(Base):
+    __tablename__ = "tbprescricoes"
 
-    precodigo = Column(Integer,primary_key=True,index=True,autoincrement=True)
-    procodigo = Column(Integer,ForeignKey("tbprotocolos.procodigo"),nullable=False)
-    prescricaocomple = Column(String,nullable=True)
+    precodigo = Column(Integer, primary_key=True, autoincrement=True)
+    procodigo = Column(Integer, ForeignKey("tbprotocolos.procodigo"), nullable=False)
+    preconteudo = Column(Text, nullable=True)
     predatacriacao = Column(
         DateTime(timezone=True),
         server_default=func.now(),
-        onupdate=func.now(),
-        nullable=False)
-    preatualizado = Column(
-        DateTime(timezone=True),        
-        onupdate=func.now(),
-        nullable=False)
+        nullable=False
+    )

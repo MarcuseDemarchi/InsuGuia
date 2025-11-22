@@ -5,20 +5,17 @@ class Protocolos(Base):
     """ Tabela de protocolos médicos"""
     __tablename__ = "tbprotocolos"
 
-    procodigo = Column(Integer,primary_key=True,index=True,autoincrement=True)
-
-    paccodigo = Column(Integer,ForeignKey("tbpaciente.paccodigo"),nullable=False)    
-    prodieta = Column(String(20),nullable=False)
-    prousocorticosteroide = Column(Boolean,nullable=False)
-    protipocorticosteroide = Column(String(20),nullable=False)
-    prodoencahepatica = Column(Boolean,default=False,nullable=False)
-    prosensibilidadeinsu = Column(Boolean,default=False,nullable=False)
+    procodigo = Column(Integer, primary_key=True, autoincrement=True)
+    paccodigo = Column(Integer, ForeignKey("tbpaciente.paccodigo"), nullable=False)    
+    prodieta = Column(String(20), nullable=False) 
+    prousocorticosteroide = Column(String(20), nullable=False)
+    prodoencahepatica = Column(Boolean, default=False, nullable=False)
+    prosensibilidadeinsu = Column(String(20), nullable=False)
+    proglicemiaatual = Column(Integer, nullable=False)    
     protipoinsubasal = Column(String(20))
-    proescaladispositivo = Column(DECIMAL(4,2))
-    proposologiabasal = Column(String(50))
+    proposologiabasal = Column(String(100), nullable=False)
     protipoinsulinarapida = Column(String(20))
-    prolimitebolusprandial = Column(Integer)
-    proglicemiaatual = Column(Integer,nullable=False)
-
-    progestante = Column(Boolean,default=False)
-    prosemanasgestantes = Column(Integer)
+    probolusthreshold = Column(Integer)
+    protipocorticosteroide = Column(String)    
+    proescaladispositivo = Column(DECIMAL(4,2), nullable=False)
+    prolimitebolusprandial = Column(Integer, nullable=False)

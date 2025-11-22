@@ -1,79 +1,98 @@
-import math
+from ..infra.database import SessionLocal
+from ..infra.database.models.paciente import Paciente
+from ..infra.database.models.protocolos import Protocolos
+
 
 class CoreProtocolo:
-    def __init__(self, peso, idade, sexo, creatinina, usa_corticoide,
-                 sensibilidade_manual=None, dieta_tipo=None,
+    def __init__(self, peso, idade, sexo, creatinina, 
+                 usa_corticoide, dieta_tipo=None,
                  escala_dispositivo=1):
         
         self.peso = peso
         self.idade = idade
         self.sexo = sexo.lower()
         self.creatinina = creatinina
-        self.usa_corticoide = usa_corticoide
-        self.sensibilidade_manual = sensibilidade_manual
+        self.usa_corticoide = usa_corticoide  
         self.dieta_tipo = dieta_tipo
         self.escala_dispositivo = escala_dispositivo
 
+    # ---------- MÉTODOS DE CÁLCULO ----------
     def calcular_tfg(self):
-        if self.sexo == "masculino":
-            k = 0.9
-            a = -0.302
-            fator_sexo = 1
+        """ Método Cockcroft-Gault """
+        if self.sexo == "feminino":
+            fator = 0.85
         else:
-            k = 0.7
-            a = -0.241
-            fator_sexo = 1.012
+            fator = 1
 
-        scr_k = self.creatinina / k
-        return round(
-            142 *
-            (min(scr_k, 1)**a) *
-            (max(scr_k, 1)**-1.200) *
-            (0.9938 ** self.idade) *
-            fator_sexo,
-            2
-        )
-    
-    def calcular_dtd(self):
-        sensib = self.classificar_sensibilidade()
+        tfg = ((140 - self.idade) * self.peso) / (72 * self.creatinina)
+        return tfg * fator
 
-        fatores = {
-            "sensivel": 0.2,
-            "sensível": 0.2,
-            "usual": 0.4,
-            "resistente": 0.6
-        }
-
-        fator = fatores.get(sensib, 0.4)
-        return self.peso * fator
-
-    def arredonda(self, valor):
-        if self.escala_dispositivo == 2:
-            return int(2 * round(valor / 2))
-        return round(valor)
-    
     def calcular_doses(self):
-        dtd = self.calcular_dtd()
-        basal = dtd * 0.5
-        bolus_total = dtd * 0.5
+        """ Regra simplificada para teste do sistema """
 
-        if self.dieta_tipo == "npo":
-            bolus_total = 0
+        DTD_total = round(self.peso * 0.5, 2)
+        basal = round(DTD_total * 0.5, 2)
+        bolus_total = round(DTD_total * 0.5, 2)
 
-        basal = self.arredonda(basal)
-
-        doses_bolus = []
-        if bolus_total > 0:
-            if self.dieta_tipo == "oral":
-                dose_unitaria = self.arredonda(bolus_total / 3)
-                doses_bolus = [dose_unitaria] * 3
-            else:
-                dose_unitaria = self.arredonda(bolus_total / 4)
-                doses_bolus = [dose_unitaria] * 4
+        bolus_detalhe = {
+            "cafe": round(bolus_total * 0.4, 2),
+            "almoco": round(bolus_total * 0.35, 2),
+            "jantar": round(bolus_total * 0.25, 2),
+        }
 
         return {
-            "DTD_total": round(dtd, 2),
+            "DTD_total": DTD_total,
             "basal": basal,
-            "bolus_total": self.arredonda(bolus_total),
-            "bolus_detalhe": doses_bolus
+            "bolus_total": bolus_total,
+            "bolus_detalhe": bolus_detalhe
         }
+
+    def classificar_sensibilidade(self):
+        if self.usa_corticoide and self.usa_corticoide != "nao":
+            return "resistente"
+        
+        if self.peso < 60:
+            return "sensivel"
+        elif self.peso <= 90:
+            return "usual"
+        else:
+            return "resistente"
+
+    # =============== AQUI ESTÁ O SEU MÉTODO ==================
+    def insert_protocolo(
+        self,
+        paccodigo: int,
+        prodieta: str,
+        prousocorticoide: str,
+        prodoencahepatica: bool,
+        prosensibilidadeinsu: str,
+        proglicemiaatual: int,
+        escala_dispositivo: int,
+        doses_calculadas: dict
+    ):
+        with SessionLocal() as db:
+            
+            paciente = db.query(Paciente).filter_by(paccodigo=paccodigo).first()
+            if not paciente:
+                return (False, "Paciente não encontrado", None)
+
+            new_protocolo = Protocolos(
+                paccodigo=paccodigo,
+                prodieta=prodieta,
+                prousocorticosteroide=prousocorticoide,
+                prodoencahepatica=prodoencahepatica,
+                prosensibilidadeinsu=prosensibilidadeinsu,
+                proglicemiaatual=proglicemiaatual,
+                proescaladispositivo=escala_dispositivo,
+                proposologiabasal=str(doses_calculadas["basal"]),
+                prolimitebolusprandial=doses_calculadas["bolus_total"],
+                protipocorticosteroide=prousocorticoide,
+                protipoinsubasal=None,
+                protipoinsulinarapida=None
+            )
+
+            db.add(new_protocolo)
+            db.commit()
+            db.refresh(new_protocolo)
+
+            return (True, "Protocolo cadastrado com sucesso", new_protocolo.procodigo)

@@ -2,6 +2,11 @@ from flask import Flask,request,jsonify
 from src.core.core_user import CoreUser
 from src.infra.database import Base,engine
 from src.core.core_paciente import CorePaciente
+from src.core.core_protocolo import CoreProtocolo
+from src.core.core_prescricao import CorePrescricao
+from src.infra.database import SessionLocal
+from src.infra.database.models.protocolos import Protocolos
+from src.infra.database.models.prescricoes import Prescricoes
 
 
 Base.metadata.create_all(bind=engine)
@@ -14,27 +19,207 @@ def index():
     """ Function index do projeto """
     return "Api esta funcionando corretamente"
 
+@app.get("/getAcompanhamentoUltimo")
+def get_acompanhamento_ultimo():
+    paccodigo = request.args.get("paccodigo", type=int)
+
+    if not paccodigo:
+        return jsonify({"message": "Informe o código do paciente (paccodigo)"}), 400
+
+    from src.core.core_acompanhamento import CoreAcompanhamento
+    ultimo = CoreAcompanhamento.buscar_ultimo_acompanhamento(paccodigo)
+
+    if not ultimo:
+        return jsonify({
+            "message": "Nenhum registro de glicemia encontrado para este paciente.",
+            "acompanhamento": None
+        }), 404
+
+    retorno = {
+        "acocodigo": ultimo.acocodigo,
+        "paccodigo": ultimo.paccodigo,
+        "data_monitoramento": ultimo.acodatamonitoramento,
+        "glicemia_jejum": ultimo.acoglicemiajejum,
+        "glicemia_pre_almoco": ultimo.acoglicemiaprealmoco,
+        "glicemia_pre_jantar": ultimo.acoglicemiaprejantar,
+        "glicemia_22h": ultimo.acoglicemia22,
+        "ajustes": ultimo.acoajustes
+    }
+
+    return jsonify({"message": "Último acompanhamento encontrado", "acompanhamento": retorno}), 200
+
+@app.post("/cadAcompanhamento")
+def cadastrar_acompanhamento():
+    data = request.json
+
+    if not data:
+        return jsonify({"message": "Dados não enviados!"}), 400
+
+    paccodigo = data.get("paciente_codigo")
+    if not paccodigo:
+        return jsonify({"message": "Código do paciente é obrigatório!"}), 400
+
+    jejum = data.get("glicemia_jejum")
+    prealmoco = data.get("glicemia_pre_almoco")
+    prejantar = data.get("glicemia_pre_jantar")
+    glic22 = data.get("glicemia_22h")
+    ajustes = data.get("ajustes")
+
+    from src.core.core_acompanhamento import CoreAcompanhamento
+    ok, msg, acocodigo = CoreAcompanhamento.inserir_acompanhamento(
+        paccodigo=paccodigo,
+        jejum=jejum,
+        pre_almoco=prealmoco,
+        pre_jantar=prejantar,
+        glicemia_22h=glic22,
+        ajustes=ajustes
+    )
+
+    return jsonify({"message": msg, "acocodigo": acocodigo})
+
+@app.post("/gerarPrescricao")
+def gerar_prescricao():
+    data = request.json
+    if not data:
+        return jsonify({"message": "procodigo precisa ser informado"}), 400
+    procodigo = data.get("procodigo")
+    if not procodigo:
+        return jsonify({"message": "procodigo é obrigatório"}), 400
+
+    corep = CorePrescricao()
+    ok, msg, precodigo, resultado = corep.gerar_e_salvar(procodigo)
+    if not ok:
+        return jsonify({"message": msg}), 404
+
+    return jsonify({
+        "message": msg,
+        "precodigo": precodigo,
+        "resultado": resultado
+    }), 200
+
+
+@app.get("/getPrescricao")
+def get_prescricao():
+    precodigo = request.args.get("precodigo", type=int)
+    if not precodigo:
+        return jsonify({"message": "precodigo é obrigatório"}), 400
+
+    corep = CorePrescricao()
+    rec = corep.get_prescricao(precodigo)
+    if not rec:
+        return jsonify({"message": "Prescrição não encontrada"}), 404
+
+    return jsonify({
+        "message": "Prescrição recuperada",
+        "prescricao": rec
+    }), 200
+
 @app.get("/getPacientes")
 def get_todos_pacientes():
     """ Retorna todos os pacientes presentes no banco de dados """
     list_pacientes = CorePaciente.get_pacientes() 
     return list_pacientes
 
+@app.get("/getProtocolo")
+def get_protocolo_paciente():
+    """Retorna os dados completos de um protocolo pelo código (procodigo)."""
+
+    procodigo = request.args.get("procodigo", type=int)
+
+    if not procodigo:
+        return jsonify({"message": "O código do protocolo (procodigo) deve ser informado"}), 400
+
+    with SessionLocal() as db:
+        protocolo = db.query(Protocolos).filter_by(procodigo=procodigo).first()
+
+        if not protocolo:
+            return jsonify({"message": "Protocolo não encontrado"}), 404
+
+        protocolo_dict = {
+            "procodigo": protocolo.procodigo,
+            "paccodigo": protocolo.paccodigo,
+            "prodieta": protocolo.prodieta,
+            "prousocorticosteroide": protocolo.prousocorticosteroide,
+            "protipocorticosteroide": protocolo.protipocorticosteroide,
+            "prodoencahepatica": protocolo.prodoencahepatica,
+            "prosensibilidadeinsu": protocolo.prosensibilidadeinsu,
+            "protipoinsubasal": protocolo.protipoinsubasal,
+            "proescaladispositivo": float(protocolo.proescaladispositivo) if protocolo.proescaladispositivo else None,
+            "proposologiabasal": protocolo.proposologiabasal,
+            "protipoinsulinarapida": protocolo.protipoinsulinarapida,
+            "prolimitebolusprandial": protocolo.prolimitebolusprandial,
+            "proglicemiaatual": protocolo.proglicemiaatual
+        }
+
+    return jsonify({
+        "message": "Dados do protocolo recuperados com sucesso",
+        "protocolo": protocolo_dict
+    }), 200
+
 @app.post("/cadProtocolo")
 def cadastrar_protocolo_paciente():
-    """ Cadastra um protocolo para o paciente """
-    data_protocolo_paciente = request.json
+    data = request.json
 
-    if not data_protocolo_paciente:
-        return jsonify({"message" : "Atenção : Os dados de cadastro do protocolo do paciente não foi informado"}),400
+    if not data:
+        return jsonify({"message": "Dados não informados"}), 400
     
-    prodieta = data_protocolo_paciente.get("protocolo_dieta")
-    prousocorticoide = data_protocolo_paciente.get("protocolo_corticosteroide")
-    prodoencahepatica = data_protocolo_paciente.get("protocolo_doenca_hepatica")
-    prosensibilidadeinsu = data_protocolo_paciente.get("protocolo_sensibilidade_insulina")
-    proglicemiaatual= data_protocolo_paciente.get("protocolo_glicemia_atual")
-    
+    paccodigo = data.get("paciente_codigo")
+    if not paccodigo:
+        return jsonify({"message": "Código do paciente é obrigatório"}), 400
 
+    prodieta = data.get("protocolo_dieta")
+    prousocorticoide = data.get("protocolo_corticosteroide")
+    prodoencahepatica = bool(data.get("protocolo_doenca_hepatica", False))
+    prosensibilidadeinsu = data.get("protocolo_sensibilidade_insulina")
+    proglicemiaatual = int(data.get("protocolo_glicemia_atual"))
+    escala = int(data.get("protocolo_escala_dispositivo"))
+    usa_corticoide_bool = (prousocorticoide.lower() != "nao")
+
+    data_paciente = CorePaciente.get_paciente(paccodigo=paccodigo)
+    if not data_paciente:
+        return jsonify({"message": "Paciente não encontrado!"}), 400
+
+    core = CoreProtocolo(
+        peso=data_paciente.pacpeso,
+        idade=data_paciente.pacidade,
+        sexo=data_paciente.pacsexo,
+        creatinina=data_paciente.paccreatinina,
+        usa_corticoide=usa_corticoide_bool,
+        dieta_tipo=prodieta,
+        escala_dispositivo=escala
+    )
+
+    tfg = core.calcular_tfg()
+    doses = core.calcular_doses()
+    prosensibilidadeinsu = core.classificar_sensibilidade()
+
+    ok, msg, procodigo = core.insert_protocolo(
+        paccodigo=paccodigo,
+        prodieta=prodieta,
+        prousocorticoide=usa_corticoide_bool,
+        prodoencahepatica=prodoencahepatica,
+        prosensibilidadeinsu=prosensibilidadeinsu,
+        proglicemiaatual=proglicemiaatual,
+        escala_dispositivo=escala,
+        doses_calculadas=doses
+    )
+
+    if not ok:
+        return jsonify({"message": msg}), 500
+
+    return jsonify({
+        "message": msg,
+        "procodigo": procodigo,
+        "resultado": {
+            "TFG": float(tfg),
+            "sensibilidade": prosensibilidadeinsu,
+        "doses": {
+            "DTD_total": float(doses["DTD_total"]),
+            "basal": float(doses["basal"]),
+            "bolus_total": float(doses["bolus_total"]),
+            "bolus_detalhe": doses["bolus_detalhe"]
+        }
+    }}), 200
 
 @app.post("/cadPaciente")
 def cadastrar_paciente():
@@ -64,12 +249,15 @@ def cadastrar_paciente():
         return jsonify({"message" : f"{txt_retorno}"}),400
     
     try:
-        pac_obj.insert_paciente()
-        return jsonify({"message" : "Paciente inserido com sucesso!"})
+        stats,message,paccodigo = pac_obj.insert_paciente()
+        return jsonify({
+                "message" : f"{message}",
+                "paccodigo" : paccodigo
+            }),200
     except Exception as e:
         print(f"Erro ao inserir paciente: {e}")
         return jsonify({"message" : f"Erro interno ao inserir paciente: {e}"}), 500
-    
+
 @app.post("/validUser")
 def user_valid():
     """ Valida o acesso do usuário """
@@ -84,7 +272,7 @@ def user_valid():
 
     valid_user = fc_user.valid_user(usrmail,password)
 
-    return jsonify({"mensagem" : f"{valid_user[1]}"})
+    return jsonify({"mensagem" : f"{valid_user[1]}"}),200
 
 @app.post("/cadUser")
 def user_register():
@@ -122,10 +310,7 @@ def user_register():
             password=password,
             user_email=user_email
         )
-        return jsonify({
-            "code" : 201,
-            "message" : f"Usuario cadastrado com sucesso!"
-        })
+        return jsonify({"message" : f"Usuario cadastrado com sucesso!"})
     except ValueError as e:
         return jsonify ({
             "code" : 500,
