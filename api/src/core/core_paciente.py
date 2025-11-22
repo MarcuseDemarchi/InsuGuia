@@ -35,9 +35,9 @@ class CorePaciente:
         with SessionLocal() as db:
             db.add(new_paciente)
             db.commit()
-            db.refresh(new_paciente)
+            db.refresh(new_paciente)            
 
-        return [True,"Paciente cadastrado com sucesso"]
+        return [True,"Paciente cadastrado com sucesso",new_paciente.paccodigo]
 
     def valid_campos(self) -> tuple[bool,str]:
         if not self.pacnome:
@@ -69,3 +69,13 @@ class CorePaciente:
         list_pacientes = [paciente.to_dict() for paciente in pacientes]
 
         return list_pacientes
+    
+    def get_paciente(paccodigo):
+        """ Get em todos os pacientes do banco """
+        with SessionLocal() as db:
+            paciente = db.query(Paciente).filter_by(paccodigo=paccodigo).first()
+        
+        if not paciente:
+            return "Paciente nao encontrado"
+
+        return paciente        
