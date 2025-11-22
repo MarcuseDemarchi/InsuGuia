@@ -99,13 +99,22 @@ def user_register():
     password = data_user.get("password")
     user_email  = data_user.get("user_email")
 
+    usrname_valid = fc_user.create_username_valid(user_name_full)
     pass_valid = fc_user.create_password_valid(password)
-    mail_valid = fc_user.create_email_valid(user_name_full)
+    mail_valid = fc_user.create_email_valid(user_email)
 
-    if not pass_valid[0]:
-        return jsonify({"message" : pass_valid[1]})
+    if not usrname_valid[0]:
+        return jsonify({
+            "code" : 500,
+            "message" : usrname_valid[1]})
     if not mail_valid[0]:
-        return jsonify({"message" : mail_valid[1]})
+        return jsonify({
+            "code" : 500,
+            "message" : mail_valid[1]})
+    if not pass_valid[0]:
+        return jsonify({
+            "code" : 500,
+            "message" : pass_valid[1]})
 
     try:
         fc_user.create_user(
@@ -113,9 +122,15 @@ def user_register():
             password=password,
             user_email=user_email
         )
-        return jsonify({"message" : f"Usuario cadastrado com sucesso!"})
+        return jsonify({
+            "code" : 201,
+            "message" : f"Usuario cadastrado com sucesso!"
+        })
     except ValueError as e:
-        return jsonify ({"message" : f"Ocorreu um erro ao tentar registrar usuario"})
+        return jsonify ({
+            "code" : 500,
+            "message" : f"Ocorreu um erro ao tentar registrar usuario"
+        })
 
 if __name__ == "__main__":
     app.run('127.0.0.1',5000)

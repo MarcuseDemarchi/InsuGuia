@@ -1,9 +1,62 @@
 import 'package:flutter/material.dart';
 import 'package:insuguia/home.dart';
 import 'package:insuguia/main.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class RegisterPage extends StatelessWidget{
-  const RegisterPage({super.key});
+
+  Future<String> createUser() async {
+    final response = await http.post(
+      Uri.parse('http://127.0.0.1:5000/cadUser'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        "user_name_full" : controllerUser.text,
+        "password" : controllerPassword.text,
+        "user_email" : controllerEmail.text
+      }),
+    );
+
+    return response.body;
+  }
+
+
+  Future<void> validaCadastro(BuildContext context) async {
+    dynamic response = jsonDecode(await createUser());
+
+    if (response['code'] == 201){
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => HomePage()),
+        (Route<dynamic> route) => false,
+      );
+    }
+    else{
+      showDialog(
+        context: context, 
+        builder: (context) => AlertDialog(
+          backgroundColor: Colors.white,
+          title: Text('Erro Ao Cadastrar Usuário'),
+          content: Text("${response['message']} | ${response['code']}"),
+          actions: [
+            TextButton(
+              onPressed: () =>{ 
+                Navigator.pop(context)
+              },  
+              child: Text('Ok', style: TextStyle(color: Colors.blue[700]),),
+            ),
+          ],
+        )); 
+    }
+  }
+
+  RegisterPage({super.key});
+
+  final TextEditingController controllerUser = TextEditingController();
+  final TextEditingController controllerEmail = TextEditingController();
+  final TextEditingController controllerPassword = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +101,7 @@ class RegisterPage extends StatelessWidget{
                   decoration: InputDecoration(
                     label: Text('Nome'),
                   ),
+                  controller: controllerUser,
                   style: TextStyle(color: Colors.white),
                 ),
                 SizedBox(height: 20),
@@ -55,25 +109,22 @@ class RegisterPage extends StatelessWidget{
                   decoration: InputDecoration(
                     label: Text('Email')
                   ),
+                  controller: controllerEmail,
                   style: TextStyle(color: Colors.white),
                 ),
                 SizedBox(height: 20),
                 TextField(
                   decoration: InputDecoration(
                     label: Text('Senha')
-                    
                   ),
+                  controller: controllerPassword,
                   obscureText: true,
                   style: TextStyle(color: Colors.white),
                 ),
                 SizedBox(height: 80),
                 ElevatedButton(
-                  onPressed: () => {
-                    Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(builder: (context) => HomePage()),
-                      (Route<dynamic> route) => false,
-                    )
+                  onPressed: () async => {
+                    validaCadastro(context)  
                   }, 
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,

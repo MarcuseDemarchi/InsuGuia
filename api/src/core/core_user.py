@@ -20,14 +20,25 @@ class CoreUser():
         return random_string
     
     @staticmethod
+    def create_username_valid(usrnamefull : str) -> tuple[bool,str]:
+        if usrnamefull.strip() == '':
+            return [False, "Atenção: Não foi informado o nome do usuário."]
+
+        return [True, 'Nome válido']
+
+    @staticmethod
     def create_email_valid(email : str) -> tuple[bool,str]:
         with SessionLocal() as db:
             email_exist = db.query(User).where(User.usremail == email).first()
 
         if email_exist:
-            return [False,"Atencao : O email ja esta cadastrado a um usuario!"]
-        else:
-            return [True,"Email nao encontrado"]
+            return [False,"Atenção: O Email ja esta cadastrado a um usuario!"]
+        elif email.strip() == '':
+            return [False,"Atenção: Não foi informado nenhum endereço de Email."]
+        elif '@' not in email:
+            return [False,"Atenção: O Email informado é inválido."]
+        
+        return [True,"Email nao encontrado"]
 
     @staticmethod
     def create_password_valid(password : str) -> tuple[bool,str]:
