@@ -42,7 +42,9 @@ def cadastrar_paciente():
     data_paciente = request.json
 
     if not data_paciente:
-        return jsonify({"message" : "Atenção : dados não informados!"}),400
+        return jsonify({
+            "code" : 400,
+            "message" : "Atenção : dados não informados!"}),
     
     pacname = data_paciente.get("paciente_nome")
     pacsexo = data_paciente.get("paciente_sexo")
@@ -52,23 +54,30 @@ def cadastrar_paciente():
     paccreatinina = data_paciente.get("paciente_creatinina")
     pacimc = data_paciente.get("paciente_imc")
     pactfg = data_paciente.get("paciente_tfg")
+    paclocalinternacao = data_paciente.get("paciente_localinternacao")
 
     pac_obj = CorePaciente(pacname,pacsexo,
                     pacidade, pacpeso,
                     pacaltura,paccreatinina,
-                    pacimc,pactfg)
+                    pacimc,pactfg, paclocalinternacao)
     
     data_paciente_valido,txt_retorno = pac_obj.valid_campos()
 
     if not data_paciente_valido:
-        return jsonify({"message" : f"{txt_retorno}"}),400
+        return jsonify({
+            "code" : 400,
+            "message" : f"{txt_retorno}"}),
     
     try:
         pac_obj.insert_paciente()
-        return jsonify({"message" : "Paciente inserido com sucesso!"})
+        return jsonify({
+            "code" : 201,
+            "message" : "Paciente inserido com sucesso!"})
     except Exception as e:
         print(f"Erro ao inserir paciente: {e}")
-        return jsonify({"message" : f"Erro interno ao inserir paciente: {e}"}), 500
+        return jsonify({
+            "code" : 500,
+            "message" : f"Erro interno ao inserir paciente: {e}"})
     
 @app.post("/validUser")
 def user_valid():
@@ -77,14 +86,22 @@ def user_valid():
     data_user = request.json
 
     if not data_user:
-        return jsonify({"mensagem" : "Dados não informados"})
+        return jsonify({
+            "code" : 500,
+            "message" : "Dados não informados"})
     
     usrmail = data_user.get("user_email")
     password = data_user.get("senha_acesso")
 
     valid_user = fc_user.valid_user(usrmail,password)
+    if not valid_user[0]:
+        return jsonify({
+            "code" : 500,
+            "message" : valid_user[1]})
 
-    return jsonify({"mensagem" : f"{valid_user[1]}"})
+    return jsonify({
+        "code" : 200,
+        "message" : f"{valid_user[1]}"})
 
 @app.post("/cadUser")
 def user_register():

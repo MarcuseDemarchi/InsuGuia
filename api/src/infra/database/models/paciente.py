@@ -15,6 +15,7 @@ class Paciente(Base):
     pacimc = Column(Float,nullable=False)
     paccreatinina = Column(Float,nullable=False)
     pactfgckdepi = Column(Float,nullable=False)
+    paclocalinternacao = Column(String, nullable=False)
     paccriado = Column(
         DateTime(timezone=True),
         server_default=func.now(),
@@ -33,5 +34,6 @@ class Paciente(Base):
             "pacimc": self.pacimc,
             "paccreatinina": self.paccreatinina,
             "pactfgckdepi": self.pactfgckdepi,
+            "paclocalinternacao": self.paclocalinternacao,
             "paccriado": self.paccriado.strftime("%Y-%m-%d %H:%M:%S") if self.paccriado else None
         }

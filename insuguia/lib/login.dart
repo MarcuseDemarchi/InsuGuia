@@ -1,9 +1,55 @@
 import 'package:flutter/material.dart';
 import 'package:insuguia/home.dart';
 import 'package:insuguia/register.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class LoginPage extends StatelessWidget{
-  const LoginPage({super.key});
+  LoginPage({super.key});
+
+  final TextEditingController controllerEmail = TextEditingController();
+  final TextEditingController controllerSenha = TextEditingController();
+
+  Future<void> validateUser(BuildContext context) async{
+    final response = await http.post(
+      Uri.parse('http://127.0.0.1:5000/validUser'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        "user_email" : controllerEmail.text,
+        "senha_acesso" : controllerSenha.text
+      }),
+    );
+
+    dynamic responseJson = jsonDecode(response.body);
+
+
+    if (responseJson['code'] == 200){
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => HomePage()),
+        (Route<dynamic> route) => false,
+      );
+    }
+    else{
+      showDialog(
+        context: context, 
+        builder: (context) => AlertDialog(
+          backgroundColor: Colors.white,
+          title: Text('Erro Ao Cadastrar Usuário'),
+          content: Text(responseJson['message']),
+          actions: [
+            TextButton(
+              onPressed: () =>{ 
+                Navigator.pop(context)
+              },  
+              child: Text('Ok', style: TextStyle(color: Colors.blue[700]),),
+            ),
+          ],
+        )); 
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +94,7 @@ class LoginPage extends StatelessWidget{
                   decoration: InputDecoration(
                     label: Text('Email')
                   ),
+                  controller: controllerEmail,
                   style: TextStyle(color: Colors.white),
                 ),
                 SizedBox(height: 20),
@@ -56,17 +103,14 @@ class LoginPage extends StatelessWidget{
                     label: Text('Senha')
                     
                   ),
+                  controller: controllerSenha,
                   obscureText: true,
                   style: TextStyle(color: Colors.white),
                 ),
                 SizedBox(height: 80),
                 ElevatedButton(
                   onPressed: () => {
-                    Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(builder: (context) => HomePage()),
-                      (Route<dynamic> route) => false,
-                    )
+                    validateUser(context)
                   }, 
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,

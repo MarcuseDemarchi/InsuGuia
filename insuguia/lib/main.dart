@@ -9,7 +9,6 @@ void main() {
     initialRoute: '/',
     routes: {
       '/' : (context) => const MainApp(),
-      '/login' : (context) => const LoginPage()
     },
   ));
 }

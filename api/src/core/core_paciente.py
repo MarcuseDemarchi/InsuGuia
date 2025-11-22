@@ -6,7 +6,8 @@ class CorePaciente:
     def __init__(self,pacnome : str, pacsexo : str, 
                     pacidade : int, pacpeso : float,
                     pacaltura : float,paccreatinina : float,
-                    pacimc : float,pactfgckdepi : float):
+                    pacimc : float,pactfgckdepi : float, 
+                    paclocalinternacao : str):
         self.pacnome = pacnome
         self.pacsexo = pacsexo
         self.pacidade = pacidade
@@ -15,6 +16,7 @@ class CorePaciente:
         self.paccreatinina = paccreatinina
         self.pacimc = pacimc
         self.pactfgckdepi = pactfgckdepi
+        self.paclocalinternacao = paclocalinternacao
 
     def insert_paciente(self) -> tuple[bool,str]:
         """ Insere paciente no banco de dados! """
@@ -26,7 +28,8 @@ class CorePaciente:
             pacaltura=self.pacaltura,
             pacimc=self.pacimc,
             paccreatinina=self.paccreatinina,
-            pactfgckdepi=self.pactfgckdepi
+            pactfgckdepi=self.pactfgckdepi,
+            paclocalinternacao=self.paclocalinternacao
         )
 
         with SessionLocal() as db:
@@ -53,6 +56,8 @@ class CorePaciente:
             return [False, "Atenção : o campo TFG é obrigatorio e não pode ser nulo ou 0!"]
         elif not self.pacimc:
             return [False, "Atenção : o campo IMC é obrigatorio e não pode ser nulo!"]
+        elif not self.paclocalinternacao:
+            return [False, "Atenção : o campo Local de Internação é obrigatorio e não pode ser nulo!"]
         else:
             return [True, "Campos válidos!"]
         
