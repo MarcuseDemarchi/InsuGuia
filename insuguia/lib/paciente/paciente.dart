@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:insuguia/components/appnavigationbar.dart';
-import 'package:insuguia/components/pacienteinfo.dart';
+import 'package:insuguia/components/listapacientes.dart';
 import 'package:insuguia/paciente/pacientecadastrar.dart';
 
 class PacientePage extends StatelessWidget{
@@ -40,110 +40,7 @@ class PacientePage extends StatelessWidget{
         ),
         body: Padding(
           padding: EdgeInsetsGeometry.all(10),
-          child: ListView(
-            children: [
-              PacienteInfo(
-                paciente: Paciente(
-                nomePaciente: 'Paciente Teste', 
-                sexo: 'Masculino', 
-                idade: 28, 
-                peso: 70, 
-                altura: 165, 
-                creatinina: 0.8, 
-                localInternacao: 'Enfermaria'),
-              ),
-              PacienteInfo(
-                paciente: Paciente(
-                nomePaciente: 'Paciente Teste', 
-                sexo: 'Masculino', 
-                idade: 28, 
-                peso: 70, 
-                altura: 165, 
-                creatinina: 0.8, 
-                localInternacao: 'Enfermaria'),
-              ),
-              PacienteInfo(
-                paciente: Paciente(
-                nomePaciente: 'Paciente Teste', 
-                sexo: 'Masculino', 
-                idade: 28, 
-                peso: 70, 
-                altura: 165, 
-                creatinina: 0.8, 
-                localInternacao: 'Enfermaria'),
-              ),
-              PacienteInfo(
-                paciente: Paciente(
-                nomePaciente: 'Paciente Teste', 
-                sexo: 'Masculino', 
-                idade: 28, 
-                peso: 70, 
-                altura: 165, 
-                creatinina: 0.8, 
-                localInternacao: 'Enfermaria'),
-              ),
-              PacienteInfo(
-                paciente: Paciente(
-                nomePaciente: 'Paciente Teste', 
-                sexo: 'Masculino', 
-                idade: 28, 
-                peso: 70, 
-                altura: 165, 
-                creatinina: 0.8, 
-                localInternacao: 'Enfermaria'),
-              ),
-              PacienteInfo(
-                paciente: Paciente(
-                nomePaciente: 'Paciente Teste', 
-                sexo: 'Masculino', 
-                idade: 28, 
-                peso: 70, 
-                altura: 165, 
-                creatinina: 0.8, 
-                localInternacao: 'Enfermaria'),
-              ),
-              PacienteInfo(
-                paciente: Paciente(
-                nomePaciente: 'Paciente Teste', 
-                sexo: 'Masculino', 
-                idade: 28, 
-                peso: 70, 
-                altura: 165, 
-                creatinina: 0.8, 
-                localInternacao: 'Enfermaria'),
-              ),
-              PacienteInfo(
-                paciente: Paciente(
-                nomePaciente: 'Paciente Teste', 
-                sexo: 'Masculino', 
-                idade: 28, 
-                peso: 70, 
-                altura: 165, 
-                creatinina: 0.8, 
-                localInternacao: 'Enfermaria'),
-              ),
-              PacienteInfo(
-                paciente: Paciente(
-                nomePaciente: 'Paciente Teste', 
-                sexo: 'Masculino', 
-                idade: 28, 
-                peso: 70, 
-                altura: 165, 
-                creatinina: 0.8, 
-                localInternacao: 'Enfermaria'),
-              ),
-              PacienteInfo(
-                paciente: Paciente(
-                nomePaciente: 'Paciente Teste', 
-                sexo: 'Masculino', 
-                idade: 28, 
-                peso: 70, 
-                altura: 165, 
-                creatinina: 0.8, 
-                localInternacao: 'Enfermaria'),
-              ),
-            ],
-          ),  
+          child: ListaPacientes()
         ),
         bottomNavigationBar: AppNavigationBar(index: 0),
         backgroundColor: Colors.white,
@@ -154,6 +51,7 @@ class PacientePage extends StatelessWidget{
 
 
 class Paciente {
+  final int id = 0;
   final String nomePaciente;
   final String sexo;
   final int idade;
@@ -169,9 +67,23 @@ class Paciente {
     required this.peso, 
     required this.altura, 
     required this.creatinina, 
-    required this.localInternacao,
+    required this.localInternacao, 
+    id,
   });
-  
+
+  factory Paciente.fromJson(json){
+    return Paciente(
+          id: json['paccodigo'],
+          nomePaciente: json['pacnome'], 
+          sexo: json['pacsexo'], 
+          idade: json['pacidade'], 
+          peso: json['pacpeso'], 
+          altura: json['pacaltura'], 
+          creatinina: json['paccreatinina'], 
+          localInternacao: json['paclocalinternacao']
+    );
+  }
+
   int calculaTFG(){
     double k;
     double a;

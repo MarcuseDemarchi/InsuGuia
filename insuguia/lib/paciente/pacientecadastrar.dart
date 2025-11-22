@@ -69,7 +69,7 @@ class PacienteCadastrarPage extends StatelessWidget{
         "paciente_imc" : pacienteCriado.calculaIMC(),
         "paciente_tfg" : pacienteCriado.calculaTFG(),
         "paciente_localinternacao" : pacienteCriado.localInternacao,
-      }),
+        }),
       );
 
     dynamic responseJson = jsonDecode(response.body);
@@ -85,7 +85,7 @@ class PacienteCadastrarPage extends StatelessWidget{
           actions: [
             TextButton(
               onPressed: () => { 
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => PacientePage()))
+                Navigator.push(context, MaterialPageRoute(builder: (context) => PacientePage()))
               },  
               child: Text('Ok', style: TextStyle(color: Colors.blue[700]),),
             ),

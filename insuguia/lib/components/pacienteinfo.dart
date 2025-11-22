@@ -5,7 +5,10 @@ import 'package:insuguia/paciente/pacientedetails.dart';
 class PacienteInfo extends StatelessWidget{
   final Paciente paciente;
 
-  const PacienteInfo({super.key, required this.paciente});
+  const PacienteInfo({
+    super.key, 
+    required this.paciente
+  });
 
   @override
   Widget build(BuildContext context) {
