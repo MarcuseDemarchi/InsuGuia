@@ -73,7 +73,6 @@ class PacienteDetailsPage extends StatelessWidget{
                   ],
                 ),
               ),
-              Text(paciente.id.toString()),
               Divider(height: 1,),
               Padding(
                 padding: EdgeInsetsGeometry.all(10),
