@@ -1,8 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:insuguia/components/appnavigationbar.dart';
-import 'package:insuguia/components/pacienteselectContainer.dart';
-import 'package:insuguia/paciente/paciente.dart';
+import 'package:insuguia/components/listapacientes.dart';
 
 class PacienteSelectPage extends StatelessWidget{
   final bool isProtocolo; 
@@ -31,66 +30,20 @@ class PacienteSelectPage extends StatelessWidget{
             ],
           ),
         ),
-        body: ListView(
-          padding: EdgeInsets.all(10),
-          children: [
-            TextField(
-              decoration: InputDecoration(
-                icon: Icon(Icons.search, color: Colors.blue[700],),
-                border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))
-
+        body: Padding(
+          padding: EdgeInsetsGeometry.all(10),
+          child: Column(
+            children: [
+              TextField(
+                decoration: InputDecoration(
+                  icon: Icon(Icons.search, color: Colors.blue[700],),
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))
+                ),
               ),
-            ),
-            SizedBox(height: 20),
-            PacienteSelectContainer(
-              selectToProtocol: isProtocolo,
-              paciente: Paciente(
-                nomePaciente: 'Paciente Teste', 
-                sexo: 'Masculino', 
-                idade: 28, 
-                peso: 70, 
-                altura: 165, 
-                creatinina: 0.8, 
-                localInternacao: 'Enfermaria'
-              )
-            ),
-            PacienteSelectContainer(
-              selectToProtocol: isProtocolo,
-              paciente: Paciente(
-                nomePaciente: 'Paciente Teste', 
-                sexo: 'Masculino', 
-                idade: 28, 
-                peso: 70, 
-                altura: 165, 
-                creatinina: 0.8, 
-                localInternacao: 'Enfermaria'
-              )
-            ),
-            PacienteSelectContainer(
-              selectToProtocol: isProtocolo,
-              paciente: Paciente(
-                nomePaciente: 'Paciente Teste', 
-                sexo: 'Masculino', 
-                idade: 28, 
-                peso: 70, 
-                altura: 165, 
-                creatinina: 0.8, 
-                localInternacao: 'Enfermaria'
-              )
-            ),
-            PacienteSelectContainer(
-              selectToProtocol: isProtocolo,
-              paciente: Paciente(
-                nomePaciente: 'Paciente Teste', 
-                sexo: 'Masculino', 
-                idade: 28, 
-                peso: 70, 
-                altura: 165, 
-                creatinina: 0.8, 
-                localInternacao: 'Enfermaria'
-              )
-            ),
-          ],
+              SizedBox(height: 20),
+              Expanded(child: ListaPacientes(select: true, selectToProtocol: isProtocolo)),
+            ],
+          )
         ),
         bottomNavigationBar: AppNavigationBar(index: 1),
       ),

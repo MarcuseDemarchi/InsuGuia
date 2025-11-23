@@ -40,7 +40,18 @@ class PacientePage extends StatelessWidget{
         ),
         body: Padding(
           padding: EdgeInsetsGeometry.all(10),
-          child: ListaPacientes()
+          child: Column(
+            children: [
+              TextField(
+                decoration: InputDecoration(
+                  icon: Icon(Icons.search, color: Colors.blue[700],),
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))
+                ),
+              ),
+              SizedBox(height: 20),
+              Expanded(child: ListaPacientes(select: false, selectToProtocol: false))
+            ],
+          )
         ),
         bottomNavigationBar: AppNavigationBar(index: 0),
         backgroundColor: Colors.white,

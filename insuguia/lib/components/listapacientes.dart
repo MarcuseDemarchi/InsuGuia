@@ -4,17 +4,23 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:insuguia/components/pacienteinfo.dart';
+import 'package:insuguia/components/pacienteselectContainer.dart';
 import 'package:insuguia/paciente/paciente.dart';
 
 class ListaPacientes extends StatefulWidget {
-  const ListaPacientes({super.key});
+  const ListaPacientes({super.key, required this.select, required this.selectToProtocol});
+
+  final bool select;
+  final bool selectToProtocol; 
 
   @override
   State<ListaPacientes> createState() => _ListaPacientesState();
 }
 
 class _ListaPacientesState extends State<ListaPacientes>{
-  Future<List<Paciente>> pacientesFuture = getPacientes();
+  Future<List<Paciente>> pacientesFuture = getPacientes();  
+
+  
 
   static Future<List<Paciente>> getPacientes() async {
     final response = await http.get(Uri.parse('http://127.0.0.1:5000/getPacientes'));
@@ -53,7 +59,12 @@ class _ListaPacientesState extends State<ListaPacientes>{
     itemBuilder: (context, index) {
       final paciente = lista[index]; 
 
-      return PacienteInfo(paciente: paciente);
+      if (widget.select) {
+        return PacienteSelectContainer(paciente: paciente, selectToProtocol: widget.selectToProtocol);
+      }
+      else{
+        return PacienteInfo(paciente: paciente);
+      }
     },
 
   );
