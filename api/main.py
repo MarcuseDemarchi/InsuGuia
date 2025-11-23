@@ -264,11 +264,9 @@ def cadastrar_paciente():
             "code" : 500,
             "message" : f"Erro interno ao inserir paciente: {e}"})
     
-@app.delete('/deletePaciente')
-def deletar_paciente():
+@app.delete('/deletePaciente/<paccodigo>')
+def deletar_paciente(paccodigo):
     """Deletar um paciente Específico"""
-    paccodigo = request.args.get("paccodigo", type=int)
-
     if not paccodigo:
         return jsonify({
             "code" : 404,
@@ -279,11 +277,13 @@ def deletar_paciente():
         deleted, msg = CorePaciente.delete_paciente(paccodigo)
 
         if deleted:
+            print(msg)
             return jsonify({
                 "code" : 204,
                 "message" : msg
             })
         else:
+            print(msg)
             return jsonify({
                 "code" : 404,
                 "message" : msg

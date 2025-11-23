@@ -20,8 +20,6 @@ class ListaPacientes extends StatefulWidget {
 class _ListaPacientesState extends State<ListaPacientes>{
   Future<List<Paciente>> pacientesFuture = getPacientes();  
 
-  
-
   static Future<List<Paciente>> getPacientes() async {
     final response = await http.get(Uri.parse('http://127.0.0.1:5000/getPacientes'));
     if (response.statusCode == 200) {
@@ -29,8 +27,6 @@ class _ListaPacientesState extends State<ListaPacientes>{
       return data.map((json) => Paciente.fromJson(json)).toList();
     } else {
       throw Exception('Failed to load items');
-
-      
     }
   }
   

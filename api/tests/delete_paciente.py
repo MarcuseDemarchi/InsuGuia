@@ -1,9 +1,8 @@
 import requests
 
-url = "http://127.0.0.1:5000/deletePaciente"
-params = {"paccodigo": 8}
+url = "http://127.0.0.1:5000/deletePaciente/7"
 hearder = {"Content-Type": "application/json"}
 
-response = requests.delete(url=url,params=params,verify=False,headers=hearder)
+response = requests.delete(url=url,verify=False,headers=hearder)
 
 print(response.text)

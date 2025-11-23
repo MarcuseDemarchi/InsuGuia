@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:insuguia/components/appnavigationbar.dart';
 import 'package:insuguia/paciente/paciente.dart';
 
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
 class PacienteEditarPage extends StatelessWidget{
   final Paciente paciente;
 
@@ -9,6 +12,52 @@ class PacienteEditarPage extends StatelessWidget{
     super.key,
     required this.paciente,
   });
+
+  Future<void> deletePaciente(BuildContext context, int paccodigo) async{
+    var response = await http.delete(
+      Uri.parse('http://127.0.0.1:5000/deletePaciente/${paccodigo}'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+
+    dynamic responseJson = jsonDecode(response.body);
+
+    if (responseJson['code'] == 204){
+      showDialog(
+        context: context, 
+        builder: (context) => AlertDialog(
+          backgroundColor: Colors.white,
+          title: Text('Cadastro de Paciente'),
+          content: Text('Paciente Deletado com sucesso!'),
+          actions: [
+            TextButton(
+              onPressed: () => { 
+                Navigator.push(context, MaterialPageRoute(builder: (context) => PacientePage()))
+              },  
+              child: Text('Ok', style: TextStyle(color: Colors.blue[700]),),
+            ),
+          ],
+        )); 
+    }
+    else{
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          backgroundColor: Colors.white,
+          title: Text('Cadastro de Paciente'),
+          content: Text(responseJson['message']),
+          actions: [
+            TextButton(
+              onPressed: () => { 
+                Navigator.push(context, MaterialPageRoute(builder: (context) => PacientePage()))
+              },  
+              child: Text('Ok', style: TextStyle(color: Colors.blue[700]),),
+            ),
+          ],
+        )); 
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -187,7 +236,7 @@ class PacienteEditarPage extends StatelessWidget{
                             ),
                             TextButton.icon(
                               onPressed: () =>{ 
-                                Navigator.pop(context)
+                                deletePaciente(context, paciente.id),
                               }, 
                               label: Text('Excluir', style: TextStyle(color: Colors.red),),
                               icon: Icon(Icons.delete, color: Colors.red,),

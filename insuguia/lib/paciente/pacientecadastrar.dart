@@ -24,6 +24,7 @@ class PacienteCadastrarPage extends StatelessWidget{
 
     try{
       pacienteCriado = Paciente(
+      id: 0,
       nomePaciente: controllerNome.text, 
       sexo: controllerSexo.text, 
       idade: int.parse(controllerIdade.text), 
