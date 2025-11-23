@@ -147,7 +147,7 @@ def get_protocolo_paciente():
             "proescaladispositivo": float(protocolo.proescaladispositivo) if protocolo.proescaladispositivo else None,
             "proposologiabasal": protocolo.proposologiabasal,
             "protipoinsulinarapida": protocolo.protipoinsulinarapida,
-            "prolimitebolusprandial": protocolo.prolimitebolusprandial,
+            "prolimitebolusprandiintal": protocolo.prolimitebolusprandial,
             "proglicemiaatual": protocolo.proglicemiaatual
         }
 
@@ -229,7 +229,7 @@ def cadastrar_paciente():
     if not data_paciente:
         return jsonify({
             "code" : 400,
-            "message" : "Atenção : dados não informados!"}),
+            "message" : "Atenção: dados não informados!"}),
     
     pacname = data_paciente.get("paciente_nome")
     pacsexo = data_paciente.get("paciente_sexo")
@@ -264,6 +264,37 @@ def cadastrar_paciente():
             "code" : 500,
             "message" : f"Erro interno ao inserir paciente: {e}"})
     
+@app.delete('/deletePaciente')
+def deletar_paciente():
+    """Deletar um paciente Específico"""
+    paccodigo = request.args.get("paccodigo", type=int)
+
+    if not paccodigo:
+        return jsonify({
+            "code" : 404,
+            "message" : "Atenção: dados não informados!"
+        }),
+
+    try:
+        deleted, msg = CorePaciente.delete_paciente(paccodigo)
+
+        if deleted:
+            return jsonify({
+                "code" : 204,
+                "message" : msg
+            })
+        else:
+            return jsonify({
+                "code" : 404,
+                "message" : msg
+            })
+    except Exception as e:
+        print(f"Erro ao deletar paciente: {e}")
+        return jsonify({
+            "code" : 500,
+            "message" : f"Erro interno ao deletar paciente: {e}"})
+    
+
 @app.post("/validUser")
 def user_valid():
     """ Valida o acesso do usuário """

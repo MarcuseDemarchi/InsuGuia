@@ -79,3 +79,20 @@ class CorePaciente:
             return "Paciente nao encontrado"
 
         return paciente        
+
+    def delete_paciente(paccodigo) -> tuple[bool,str]:
+        """ Deleta um paciente especifico do banco"""
+        with SessionLocal() as db:
+            paciente = db.query(Paciente).filter_by(paccodigo=paccodigo).first()
+
+            if not paciente:
+                return [False, "Paciente nao encontrado"]
+
+            db.delete(paciente)
+            db.commit()
+
+        return [True, "Paciente Removido com sucesso!"]
+
+        
+    
+
