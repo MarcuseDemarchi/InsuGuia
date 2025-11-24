@@ -6,7 +6,7 @@ from ..infra.database.models.protocolos import Protocolos
 class CoreProtocolo:
     def __init__(self, peso, idade, sexo, creatinina, 
                  usa_corticoide, dieta_tipo=None,
-                 escala_dispositivo=1):
+                 proescaladispositivo=1):
         
         self.peso = peso
         self.idade = idade
@@ -14,18 +14,7 @@ class CoreProtocolo:
         self.creatinina = creatinina
         self.usa_corticoide = usa_corticoide  
         self.dieta_tipo = dieta_tipo
-        self.escala_dispositivo = escala_dispositivo
-
-    # ---------- MÉTODOS DE CÁLCULO ----------
-    def calcular_tfg(self):
-        """ Método Cockcroft-Gault """
-        if self.sexo == "feminino":
-            fator = 0.85
-        else:
-            fator = 1
-
-        tfg = ((140 - self.idade) * self.peso) / (72 * self.creatinina)
-        return tfg * fator
+        self.proescaladispositivo = proescaladispositivo
 
     def calcular_doses(self):
         """ Regra simplificada para teste do sistema """
@@ -47,18 +36,6 @@ class CoreProtocolo:
             "bolus_detalhe": bolus_detalhe
         }
 
-    def classificar_sensibilidade(self):
-        if self.usa_corticoide and self.usa_corticoide != "nao":
-            return "resistente"
-        
-        if self.peso < 60:
-            return "sensivel"
-        elif self.peso <= 90:
-            return "usual"
-        else:
-            return "resistente"
-
-    # =============== AQUI ESTÁ O SEU MÉTODO ==================
     def insert_protocolo(
         self,
         paccodigo: int,
@@ -67,7 +44,10 @@ class CoreProtocolo:
         prodoencahepatica: bool,
         prosensibilidadeinsu: str,
         proglicemiaatual: int,
-        escala_dispositivo: int,
+        proescaladispositivo: float,
+        protipoinsubasal : str,
+        proposologiabasal : str,
+        proinsuacaorapida : str,
         doses_calculadas: dict
     ):
         with SessionLocal() as db:
@@ -83,12 +63,12 @@ class CoreProtocolo:
                 prodoencahepatica=prodoencahepatica,
                 prosensibilidadeinsu=prosensibilidadeinsu,
                 proglicemiaatual=proglicemiaatual,
-                proescaladispositivo=escala_dispositivo,
-                proposologiabasal=str(doses_calculadas["basal"]),
+                proescaladispositivo=proescaladispositivo,
+                proposologiabasal=proposologiabasal,
                 prolimitebolusprandial=doses_calculadas["bolus_total"],
                 protipocorticosteroide=prousocorticoide,
-                protipoinsubasal=None,
-                protipoinsulinarapida=None
+                protipoinsubasal=protipoinsubasal,
+                proinsuacaorapida=proinsuacaorapida
             )
 
             db.add(new_protocolo)
