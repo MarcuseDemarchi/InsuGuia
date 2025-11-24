@@ -81,21 +81,25 @@ def cadastrar_acompanhamento():
 def gerar_prescricao():
     data = request.json
     if not data:
-        return jsonify({"message": "procodigo precisa ser informado"}), 400
+        return jsonify({
+        "code": 404,"message": "procodigo precisa ser informado"}),  404
     procodigo = data.get("procodigo")
     if not procodigo:
-        return jsonify({"message": "procodigo é obrigatório"}), 400
+        return jsonify({
+        "code": 404,"message": "procodigo é obrigatório"}),  404
 
     corep = CorePrescricao()
     ok, msg, precodigo, resultado = corep.gerar_e_salvar(procodigo)
     if not ok:
-        return jsonify({"message": msg}), 404
+        return jsonify({
+        "code": 404,"message": msg}), 404
 
     return jsonify({
+        "code": 201,
         "message": msg,
         "precodigo": precodigo,
         "resultado": resultado
-    }), 200
+    }), 201
 
 @app.get("/getPrescricao")
 def get_prescricao():
@@ -126,13 +130,13 @@ def get_protocolo_paciente():
     procodigo = request.args.get("procodigo", type=int)
 
     if not procodigo:
-        return jsonify({"message": "O código do protocolo (procodigo) deve ser informado"}), 400
+        return jsonify({"code": 404, "message": "O código do protocolo (procodigo) deve ser informado"})
 
     with SessionLocal() as db:
         protocolo = db.query(Protocolos).filter_by(procodigo=procodigo).first()
 
         if not protocolo:
-            return jsonify({"message": "Protocolo não encontrado"}), 404
+            return jsonify({"code": 404, "message": "Protocolo não encontrado"})
 
         protocolo_dict = {
             "procodigo": protocolo.procodigo,
@@ -151,20 +155,21 @@ def get_protocolo_paciente():
         }
 
     return jsonify({
+        "code" : 201,
         "message": "Dados do protocolo recuperados com sucesso",
         "protocolo": protocolo_dict
-    }), 200
+    })
 
 @app.post("/cadProtocolo")
 def cadastrar_protocolo_paciente():
     data = request.json
 
     if not data:
-        return jsonify({"message": "Dados não informados"}), 400
+        return jsonify({"code": 404, "message": "Dados não informados"})
     
     paccodigo = data.get("paciente_codigo")
     if not paccodigo:
-        return jsonify({"message": "Código do paciente é obrigatório"}), 400
+        return jsonify({"code": 404, "message": "Código do paciente é obrigatório"})
 
     prodieta = data.get("protocolo_dieta")
     prousocorticoide = data.get("protocolo_corticosteroide")
@@ -179,7 +184,7 @@ def cadastrar_protocolo_paciente():
 
     data_paciente = CorePaciente.get_paciente(paccodigo=paccodigo)
     if not data_paciente:
-        return jsonify({"message": "Paciente não encontrado!"}), 400
+        return jsonify({"code": 404, "message": "Paciente não encontrado!"}),
 
     core = CoreProtocolo(
         peso=data_paciente.pacpeso,
@@ -203,14 +208,16 @@ def cadastrar_protocolo_paciente():
         proescaladispositivo=proescaladispositivo,
         protipoinsubasal=protipoinsubasal,
         proposologiabasal=proposologiabasal,
+        protipocorticosteroide=prousocorticoide,
         proinsuacaorapida=proinsuacaorapida,
         doses_calculadas=doses
     )
 
     if not ok:
-        return jsonify({"message": msg}), 500
+        return jsonify({"code": 500, "message": msg})
 
     return jsonify({
+        "code": 201,
         "message": msg,
         "procodigo": procodigo,
         "resultado": {
@@ -222,7 +229,7 @@ def cadastrar_protocolo_paciente():
             "bolus_total": float(doses["bolus_total"]),
             "bolus_detalhe": doses["bolus_detalhe"]
         }
-    }}), 200
+    }})
 
 @app.post("/cadPaciente")
 def cadastrar_paciente():

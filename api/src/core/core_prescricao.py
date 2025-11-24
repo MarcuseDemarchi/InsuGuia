@@ -38,7 +38,9 @@ class CorePrescricao:
             # fallback: usar o que estiver em proposologiabasal em texto
             # se o protocolo não tem basais numéricos, usamos a lógica simples:
             dtd = round(paciente.pacpeso * 0.5, 2)
-            basal_calc = round(dtd * 0.5, 2)
+            basal_calc = round(dtd * 0.5, 0)
+            if basal_calc % 2 == 1:
+                basal_calc += 1
 
         # bolus prandial: simples regra de divisão (se bolus_total informado)
         if bolus_total and bolus_total > 0:

@@ -40,13 +40,14 @@ class CoreProtocolo:
         self,
         paccodigo: int,
         prodieta: str,
-        prousocorticoide: str,
+        prousocorticoide: bool,
         prodoencahepatica: bool,
         prosensibilidadeinsu: str,
         proglicemiaatual: int,
         proescaladispositivo: float,
         protipoinsubasal : str,
         proposologiabasal : str,
+        protipocorticosteroide : str,
         proinsuacaorapida : str,
         doses_calculadas: dict
     ):
@@ -66,7 +67,7 @@ class CoreProtocolo:
                 proescaladispositivo=proescaladispositivo,
                 proposologiabasal=proposologiabasal,
                 prolimitebolusprandial=doses_calculadas["bolus_total"],
-                protipocorticosteroide=prousocorticoide,
+                protipocorticosteroide=protipocorticosteroide,
                 protipoinsubasal=protipoinsubasal,
                 proinsuacaorapida=proinsuacaorapida
             )
