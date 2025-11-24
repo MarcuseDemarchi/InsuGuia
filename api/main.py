@@ -97,7 +97,6 @@ def gerar_prescricao():
         "resultado": resultado
     }), 200
 
-
 @app.get("/getPrescricao")
 def get_prescricao():
     precodigo = request.args.get("precodigo", type=int)
@@ -171,8 +170,11 @@ def cadastrar_protocolo_paciente():
     prousocorticoide = data.get("protocolo_corticosteroide")
     prodoencahepatica = bool(data.get("protocolo_doenca_hepatica", False))
     prosensibilidadeinsu = data.get("protocolo_sensibilidade_insulina")
-    proglicemiaatual = int(data.get("protocolo_glicemia_atual"))
-    escala = int(data.get("protocolo_escala_dispositivo"))
+    proglicemiaatual = int(data.get("protocolo_glicemia_atual"))    
+    proescaladispositivo = data.get("protocolo_escala_dispositivo")
+    protipoinsubasal = data.get("protocolo_tipo_insulina_basal")
+    proposologiabasal = data.get("protocolo_posologia_basal")
+    proinsuacaorapida = data.get("protocolo_insulina_rapida")
     usa_corticoide_bool = (prousocorticoide.lower() != "nao")
 
     data_paciente = CorePaciente.get_paciente(paccodigo=paccodigo)
@@ -186,12 +188,10 @@ def cadastrar_protocolo_paciente():
         creatinina=data_paciente.paccreatinina,
         usa_corticoide=usa_corticoide_bool,
         dieta_tipo=prodieta,
-        escala_dispositivo=escala
+        proescaladispositivo=proescaladispositivo
     )
-
-    tfg = core.calcular_tfg()
+    
     doses = core.calcular_doses()
-    prosensibilidadeinsu = core.classificar_sensibilidade()
 
     ok, msg, procodigo = core.insert_protocolo(
         paccodigo=paccodigo,
@@ -200,7 +200,10 @@ def cadastrar_protocolo_paciente():
         prodoencahepatica=prodoencahepatica,
         prosensibilidadeinsu=prosensibilidadeinsu,
         proglicemiaatual=proglicemiaatual,
-        escala_dispositivo=escala,
+        proescaladispositivo=proescaladispositivo,
+        protipoinsubasal=protipoinsubasal,
+        proposologiabasal=proposologiabasal,
+        proinsuacaorapida=proinsuacaorapida,
         doses_calculadas=doses
     )
 
@@ -211,7 +214,7 @@ def cadastrar_protocolo_paciente():
         "message": msg,
         "procodigo": procodigo,
         "resultado": {
-            "TFG": float(tfg),
+            "TFG": float(data_paciente.pactfgckdepi),
             "sensibilidade": prosensibilidadeinsu,
         "doses": {
             "DTD_total": float(doses["DTD_total"]),
@@ -251,7 +254,7 @@ def cadastrar_paciente():
     if not data_paciente_valido:
         return jsonify({
             "code" : 400,
-            "message" : f"{txt_retorno}"}),
+            "message" : f"{txt_retorno}"})
     
     try:
         pac_obj.insert_paciente()

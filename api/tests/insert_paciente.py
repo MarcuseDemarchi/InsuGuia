@@ -10,7 +10,8 @@ params = {
     "paciente_altura" : 10.1,
     "paciente_creatinina" : 10,
     "paciente_imc" : 10,
-    "paciente_tfg" : 10
+    "paciente_tfg" : 10,
+    "paciente_localinternacao" : "Joacicaba"
     }
 
 hearder = {"Content-Type": "application/json"}
