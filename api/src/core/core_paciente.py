@@ -79,3 +79,45 @@ class CorePaciente:
             return "Paciente nao encontrado"
 
         return paciente        
+
+    def delete_paciente(paccodigo) -> tuple[bool,str]:
+        """ Deleta um paciente especifico do banco"""
+        with SessionLocal() as db:
+            paciente = db.query(Paciente).filter_by(paccodigo=paccodigo).first()
+
+            if not paciente:
+                return [False, "Paciente nao encontrado"]
+
+            db.delete(paciente)
+            db.commit()
+
+        return [True, "Paciente Removido com sucesso!"]
+    
+    def update_paciente(paccodigo, pacnome : str, pacsexo : str, 
+                    pacidade : int, pacpeso : float,
+                    pacaltura : float,paccreatinina : float,
+                    pacimc : float,pactfgckdepi : float, 
+                    paclocalinternacao : str) -> tuple[bool, str]:
+        """ Atualiza um paciente específico no banco"""
+        with SessionLocal() as db:
+            paciente = db.query(Paciente).filter_by(paccodigo=paccodigo).first()
+
+            if not paciente:
+                return [False, "Paciente nao encontrado"]
+            
+            paciente.pacnome = pacnome
+            paciente.pacsexo = pacsexo
+            paciente.pacidade = pacidade
+            paciente.pacpeso = pacpeso
+            paciente.pacaltura = pacaltura
+            paciente.paccreatinina = paccreatinina
+            paciente.pacimc = pacimc
+            paciente.pactfgckdepi = pactfgckdepi
+            paciente.paclocalinternacao = paclocalinternacao
+
+            db.commit()
+        
+
+        return [True, "Paciente Alterado com sucesso!"]
+    
+

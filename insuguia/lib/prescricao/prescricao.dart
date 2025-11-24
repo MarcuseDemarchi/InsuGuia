@@ -45,6 +45,7 @@ class PrescricaoPage extends StatelessWidget{
                 protocolo: Protocolo(
                   id: 1,
                   paciente: Paciente(
+                    id: 0,
                     nomePaciente: 'Paciente Teste', 
                     sexo: 'Masculino', 
                     idade: 28, 

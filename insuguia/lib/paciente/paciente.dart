@@ -62,7 +62,7 @@ class PacientePage extends StatelessWidget{
 
 
 class Paciente {
-  final int id = 0;
+  final int id;
   final String nomePaciente;
   final String sexo;
   final int idade;
@@ -72,6 +72,7 @@ class Paciente {
   final String localInternacao;
 
   const Paciente({
+    required this.id,
     required this.nomePaciente, 
     required this.sexo, 
     required this.idade, 
@@ -79,7 +80,6 @@ class Paciente {
     required this.altura, 
     required this.creatinina, 
     required this.localInternacao, 
-    id,
   });
 
   factory Paciente.fromJson(json){
