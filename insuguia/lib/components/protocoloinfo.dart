@@ -30,16 +30,9 @@ class ProtocoloInfo extends StatelessWidget{
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(protocolo.paciente.nomePaciente, style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black)),
-                    Row(
-                      spacing: 10,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text('Protocolo #${protocolo.id}', style: TextStyle(fontStyle: FontStyle.italic, color: Colors.black38),),
-                        Text('Emitido ${protocolo.dataEmissao.day}/${protocolo.dataEmissao.month}/${protocolo.dataEmissao.year}', style: TextStyle(fontStyle: FontStyle.italic, color: Colors.black38),)
-                      ],
-                    )  
+                    Text('Prot. #${protocolo.id} | Emitido ${protocolo.dataEmissao.day}/${protocolo.dataEmissao.month}/${protocolo.dataEmissao.year}', style: TextStyle(fontStyle: FontStyle.italic, color: Colors.black38),),
                   ],
-                ),
+                )  
               ],
             ),
           ),

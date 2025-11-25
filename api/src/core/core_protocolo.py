@@ -2,7 +2,6 @@ from ..infra.database import SessionLocal
 from ..infra.database.models.paciente import Paciente
 from ..infra.database.models.protocolos import Protocolos
 
-
 class CoreProtocolo:
     def __init__(self, peso, idade, sexo, creatinina, 
                  usa_corticoide, dieta_tipo=None,
@@ -15,6 +14,15 @@ class CoreProtocolo:
         self.usa_corticoide = usa_corticoide  
         self.dieta_tipo = dieta_tipo
         self.proescaladispositivo = proescaladispositivo
+
+    def get_protocolos():
+        """ Get em todos os protocolos do banco """
+        with SessionLocal() as db:
+            protocolos = db.query(Protocolos).all()            
+        
+        list_protocolos = [protocolo.to_dict() for protocolo in protocolos]
+
+        return list_protocolos
 
     def calcular_doses(self):
         """ Regra simplificada para teste do sistema """
@@ -49,6 +57,7 @@ class CoreProtocolo:
         proposologiabasal : str,
         protipocorticosteroide : str,
         proinsuacaorapida : str,
+        probolusprandial : int,
         doses_calculadas: dict
     ):
         with SessionLocal() as db:
@@ -66,6 +75,7 @@ class CoreProtocolo:
                 proglicemiaatual=proglicemiaatual,
                 proescaladispositivo=proescaladispositivo,
                 proposologiabasal=proposologiabasal,
+                probolusprandial=probolusprandial,
                 prolimitebolusprandial=doses_calculadas["bolus_total"],
                 protipocorticosteroide=protipocorticosteroide,
                 protipoinsubasal=protipoinsubasal,

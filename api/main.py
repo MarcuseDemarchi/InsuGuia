@@ -123,12 +123,16 @@ def get_todos_pacientes():
     list_pacientes = CorePaciente.get_pacientes() 
     return list_pacientes
 
+
 @app.get("/getProtocolo")
-def get_protocolo_paciente():
+def get_protocolos():
+    """Retorna os dados completos de todos os protocolos ."""
+    return CoreProtocolo.get_protocolos()
+
+
+@app.get("/getProtocolo/<procodigo>")
+def get_protocolo_paciente(procodigo):
     """Retorna os dados completos de um protocolo pelo código (procodigo)."""
-
-    procodigo = request.args.get("procodigo", type=int)
-
     if not procodigo:
         return jsonify({"code": 404, "message": "O código do protocolo (procodigo) deve ser informado"})
 
@@ -149,9 +153,10 @@ def get_protocolo_paciente():
             "protipoinsubasal": protocolo.protipoinsubasal,
             "proescaladispositivo": float(protocolo.proescaladispositivo) if protocolo.proescaladispositivo else None,
             "proposologiabasal": protocolo.proposologiabasal,
-            "protipoinsulinarapida": protocolo.protipoinsulinarapida,
-            "prolimitebolusprandiintal": protocolo.prolimitebolusprandial,
-            "proglicemiaatual": protocolo.proglicemiaatual
+            "protipoinsulinarapida": protocolo.proinsuacaorapida,
+            "probolusprandiintal": protocolo.probolusprandial,
+            "proglicemiaatual": protocolo.proglicemiaatual,
+            "prodataemissao" : protocolo.prodataemissao,
         }
 
     return jsonify({
@@ -180,6 +185,7 @@ def cadastrar_protocolo_paciente():
     protipoinsubasal = data.get("protocolo_tipo_insulina_basal")
     proposologiabasal = data.get("protocolo_posologia_basal")
     proinsuacaorapida = data.get("protocolo_insulina_rapida")
+    probolusprandial = data.get("protocolo_bolus_prandial")
     usa_corticoide_bool = (prousocorticoide.lower() != "nao")
 
     data_paciente = CorePaciente.get_paciente(paccodigo=paccodigo)
@@ -210,6 +216,7 @@ def cadastrar_protocolo_paciente():
         proposologiabasal=proposologiabasal,
         protipocorticosteroide=prousocorticoide,
         proinsuacaorapida=proinsuacaorapida,
+        probolusprandial=probolusprandial,
         doses_calculadas=doses
     )
 

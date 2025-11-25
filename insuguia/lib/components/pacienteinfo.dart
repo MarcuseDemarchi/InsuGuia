@@ -12,53 +12,36 @@ class PacienteInfo extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(10),
-      margin: EdgeInsets.only(bottom: 10),
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.black38),
-        borderRadius: BorderRadius.circular(10)
-      ),
-      child: Row(
-        children: [
-          Expanded(
-            flex: 8,
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Icon(Icons.personal_injury, color: Colors.blue[700], size: 36,),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(paciente.nomePaciente, style: TextStyle(fontWeight: FontWeight.bold),),
-                        Text("${paciente.sexo} | ${paciente.idade} Anos", style: TextStyle(fontStyle: FontStyle.italic),)
-                      ],
-                    ),
-                  ],  
-                )
-              ],
-            )
+    return Column(
+      children: [
+        ElevatedButton(
+          onPressed: (){
+            Navigator.push(context, MaterialPageRoute(builder: (context) => PacienteDetailsPage(paciente: paciente)));
+          }, 
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.white,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadiusGeometry.circular(10), side: BorderSide(color: Colors.black38))
+            
           ),
-          Expanded(
-            flex: 2,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
+          child: Padding(
+            padding: EdgeInsetsGeometry.only(top: 20, bottom: 20),
+            child: Row(
+              spacing: 10,
               children: [
-                IconButton(
-                  onPressed: () => {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => PacienteDetailsPage(paciente: paciente,)))
-                  },
-                  icon: Icon(
-                    Icons.medical_information,
-                    color: Colors.blue[700],  
-                  ),  
-                )
+                Icon(Icons.personal_injury, color: Colors.blue[700], size: 36),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(paciente.nomePaciente, style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),),
+                    Text("${paciente.sexo} | ${paciente.idade} Anos", style: TextStyle(fontStyle: FontStyle.italic, color: Colors.black38),)
+                  ],
+                )  
               ],
-            )
-          )
-        ],
-      ),
+            ),
+          ),
+        ),
+        SizedBox(height: 20)
+      ],
     );
   }
 }

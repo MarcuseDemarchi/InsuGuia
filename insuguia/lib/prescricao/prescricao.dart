@@ -30,7 +30,7 @@ class PrescricaoPage extends StatelessWidget{
           ),
         ),
         body: ListView(
-          padding: EdgeInsets.all(10),
+          padding: EdgeInsetsGeometry.fromLTRB(10, 20, 10, 20),
           children: [
             TextField(
               decoration: InputDecoration(

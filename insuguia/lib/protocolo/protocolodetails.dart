@@ -86,6 +86,7 @@ class Protocolodetails extends StatelessWidget{
                     enableFilter: true,
                     label: Text('Dieta', style: TextStyle(color: Colors.blue[700])),
                     initialSelection: protocolo.dieta,      
+                    controller: TextEditingController(text: protocolo.dieta),
                     enabled: false,
                     dropdownMenuEntries: [
                       DropdownMenuEntry(value: 'oral_boa', label: 'Oral - Boa aceitação'),
@@ -106,6 +107,7 @@ class Protocolodetails extends StatelessWidget{
                     width: double.infinity,
                     enableFilter: true,
                     initialSelection: protocolo.corticoide,
+                    controller: TextEditingController(text: protocolo.corticoide),
                     enabled: false,
                     label: Text('Uso de Corticoide', style: TextStyle(color: Colors.blue[700])),
                     dropdownMenuEntries: [
@@ -127,6 +129,7 @@ class Protocolodetails extends StatelessWidget{
                     enableFilter: true,
                     enabled: false,
                     initialSelection: protocolo.hepatica,
+                    controller: TextEditingController(text: protocolo.hepatica),
                     label: Text('Doença Hepática', style: TextStyle(color: Colors.blue[700])),
                     dropdownMenuEntries: [
                       DropdownMenuEntry(value: 'nao', label: 'Não'),
@@ -145,6 +148,7 @@ class Protocolodetails extends StatelessWidget{
                     enableFilter: true,
                     enabled: false,
                     initialSelection: protocolo.sensibilidade,
+                    controller: TextEditingController(text: protocolo.sensibilidade),
                     label: Text('Sensibilidade a insulina', style: TextStyle(color: Colors.blue[700])),
                     dropdownMenuEntries: [
                       DropdownMenuEntry(value: 'baixa', label: 'Sensível'),
@@ -183,13 +187,13 @@ class Protocolodetails extends StatelessWidget{
                     width: double.infinity,
                     enableFilter: true,
                     initialSelection: protocolo.escala,
+                    controller: TextEditingController(text: "${protocolo.escala} UI"),
                     enabled: false,
                     label: Text('Escala (UI) do dispositivo', style: TextStyle(color: Colors.blue[700])),
                     dropdownMenuEntries: [
                       DropdownMenuEntry(value: 0.5, label: '0.5 UI'),
                       DropdownMenuEntry(value: 1, label: '1 UI'),
                       DropdownMenuEntry(value: 2, label: '2 UI'),
-                      // TODO: ao selecionar 2 -> mensagem de insulina arredondada em pares 
                     ],    
                     inputDecorationTheme: InputDecorationTheme(
                       disabledBorder: OutlineInputBorder(
@@ -214,6 +218,7 @@ class Protocolodetails extends StatelessWidget{
                             width: double.infinity,
                             enableFilter: true,
                             initialSelection: protocolo.tipoBasal,
+                            controller: TextEditingController(text: protocolo.tipoBasal),
                             enabled: false,
                             label: Text('Tipo', style: TextStyle(color: Colors.blue[700])),
                             dropdownMenuEntries: [
@@ -233,6 +238,7 @@ class Protocolodetails extends StatelessWidget{
                             width: double.infinity,
                             enableFilter: true,
                             initialSelection: protocolo.posologia,
+                            controller: TextEditingController(text: protocolo.posologia),
                             enabled: false,
                             label: Text('Posologia', style: TextStyle(color: Colors.blue[700])),
                             dropdownMenuEntries: [
@@ -270,6 +276,7 @@ class Protocolodetails extends StatelessWidget{
                             width: double.infinity,
                             enableFilter: true,
                             initialSelection: protocolo.tipoAcaoRapida,
+                            controller: TextEditingController(text: protocolo.tipoAcaoRapida),
                             enabled: false,
                             label: Text('Tipo', style: TextStyle(color: Colors.blue[700])),
                             dropdownMenuEntries: [
@@ -290,6 +297,7 @@ class Protocolodetails extends StatelessWidget{
                             width: double.infinity,
                             enableFilter: true,
                             initialSelection: protocolo.bolusPrandial,
+                            controller: TextEditingController(text: "${protocolo.bolusPrandial} mg/dL"),
                             enabled: false,
                             label: Text('Bolus prandial a partir de:', style: TextStyle(color: Colors.blue[700])),
                             dropdownMenuEntries: [

@@ -41,7 +41,8 @@ class ProtocoloCadastrarPage extends StatelessWidget{
         "protocolo_escala_dispositivo": double.parse(controllerEscala.text),
         "protocolo_tipo_insulina_basal": controllerTipoBasal.text,
         "protocolo_posologia_basal": controllerPosologia.text,
-        "protocolo_insulina_rapida": controllerTipoRapida.text  
+        "protocolo_insulina_rapida": controllerTipoRapida.text,
+        "protocolo_bolus_prandial" : int.parse(controllerBolus.text)
         }),
       );
 
@@ -240,7 +241,6 @@ class ProtocoloCadastrarPage extends StatelessWidget{
                 DropdownMenuEntry(value: 0.5, label: '0.5'),
                 DropdownMenuEntry(value: 1, label: '1'),
                 DropdownMenuEntry(value: 2, label: '2'),
-                // TODO: ao selecionar 2 -> mensagem de insulina arredondada em pares 
               ]                    
             ),
             SizedBox(height: 20),
@@ -314,11 +314,11 @@ class ProtocoloCadastrarPage extends StatelessWidget{
                       width: double.infinity,
                       enableFilter: true,
                       controller: controllerBolus,
-                      label: Text('Bolus prandial a partir de:', style: TextStyle(color: Colors.blue[700])),
+                      label: Text('Bolus prandial (mg/dL) a partir de:', style: TextStyle(color: Colors.blue[700])),
                       dropdownMenuEntries: [
-                        DropdownMenuEntry(value: '70', label: '70 mg/dL'),
-                        DropdownMenuEntry(value: '100', label: '100 mg/dL'),
-                        DropdownMenuEntry(value: '140', label: '140 mg/dL'),
+                        DropdownMenuEntry(value: 70, label: '70 '),
+                        DropdownMenuEntry(value: 100, label: '100'),
+                        DropdownMenuEntry(value: 140, label: '140'),
                       ]                    
                     ),
                   ],

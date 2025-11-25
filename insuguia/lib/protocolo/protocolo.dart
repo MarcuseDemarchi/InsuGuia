@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:insuguia/components/appnavigationbar.dart';
-import 'package:insuguia/components/protocoloinfo.dart';
+import 'package:insuguia/components/listaprotocolos.dart';
 import 'package:insuguia/paciente/paciente.dart';
 import 'package:insuguia/paciente/pacienteselect.dart';
 
@@ -49,42 +49,13 @@ class ProtocoloPage extends StatelessWidget{
           ),  
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-        body: ListView(
-          padding: EdgeInsets.all(10),
-          children: [
-            TextField(
-              decoration: InputDecoration(
-                icon: Icon(Icons.search, color: Colors.blue[700],),
-                border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))
-                
-              ),
-            ),
-            SizedBox(height: 10,),
-            ProtocoloInfo(
-              protocolo: Protocolo(
-                id: 1,
-                paciente: Paciente(
-                  id: 0,
-                  nomePaciente: 'Paciente Teste', 
-                  sexo: 'Masculino', 
-                  idade: 28, 
-                  peso: 70, 
-                  altura: 165, 
-                  creatinina: 0.8, 
-                  localInternacao: 'Enfermaria'),
-                  dieta: 'oral_boa',
-                  corticoide: 'nao', 
-                  hepatica: 'nao', 
-                  sensibilidade: 'media', 
-                  ultimaGlicemia: 220, 
-                  escala: 1, 
-                  tipoBasal: 'nph', 
-                  posologia: '3_manha_almoco_noite', 
-                  tipoAcaoRapida: 'regular', 
-                  bolusPrandial: 100,
-                  dataEmissao: DateTime(2025,11,13))
-            ),
-          ],
+        body: Padding(
+          padding: EdgeInsetsGeometry.fromLTRB(10, 20, 10, 20),
+          child: Column(
+            children: [
+              Expanded(child: ListaProtocolos())
+            ],
+          )
         ),
         bottomNavigationBar: AppNavigationBar(index: 1),
       ),
@@ -94,7 +65,7 @@ class ProtocoloPage extends StatelessWidget{
 
 class Protocolo {
   final int id;
-  final Paciente paciente;
+  Paciente paciente;
   final String dieta;
   final String corticoide;
   final String hepatica;
@@ -107,7 +78,7 @@ class Protocolo {
   final int bolusPrandial;
   final DateTime dataEmissao;
 
-  const Protocolo(
+  Protocolo(
     {
     required this.id,
     required this.paciente, 
@@ -124,4 +95,23 @@ class Protocolo {
     required this.dataEmissao
     }
   );
+
+
+  factory Protocolo.fromJson(json){
+    return Protocolo(
+      id            : json['procodigo'],
+      paciente      : Paciente.fromJson(json['paciente']), 
+      dieta         : json['prodieta'],
+      corticoide    : json['protipocorticosteroide'], 
+      hepatica      : json['prodoencahepatica'] ? 'Não' : 'Sim',
+      sensibilidade : json['prosensibilidadeinsu'],
+      ultimaGlicemia: json['proglicemiaatual'], 
+      escala        : json['proescaladispositivo'],
+      tipoBasal     : json['protipoinsubasal'], 
+      posologia     : json['proposologiabasal'], 
+      tipoAcaoRapida: json['proinsuacaorapida'], 
+      bolusPrandial : json['probolusprandial'], 
+      dataEmissao   : DateTime.parse(json['prodataemissao']),
+    );
+  }
 }
