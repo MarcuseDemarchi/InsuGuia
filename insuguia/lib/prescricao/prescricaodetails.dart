@@ -3,7 +3,7 @@ import 'package:insuguia/components/appnavigationbar.dart';
 import 'package:insuguia/paciente/pacientedetails.dart';
 import 'package:insuguia/prescricao/prescricao.dart';
 import 'package:insuguia/protocolo/protocolodetails.dart';
-
+import 'package:flutter/services.dart'; // Import this for Clipboard
 class PrescricaoDetailsPage extends StatelessWidget{
   final Prescricao prescricao;
 
@@ -157,8 +157,11 @@ class PrescricaoDetailsPage extends StatelessWidget{
                         borderRadius: BorderRadiusGeometry.circular(5),
                       )
                     ),
-                    onPressed: () {
-
+                    onPressed: () async{
+                      await Clipboard.setData(ClipboardData(text: prescricao.conteudo));
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Copiado!')),
+                      );
                     }, 
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,

@@ -142,6 +142,7 @@ class CorePrescricao:
             # salva na tabela prescricoes
             nova = Prescricoes(
                 procodigo=procodigo,
+                paccodigo=paciente.paccodigo,
                 preconteudo=texto
             )
             db.add(nova)
@@ -157,6 +158,7 @@ class CorePrescricao:
                 return None
             return {
                 "precodigo": rec.precodigo,
+                "paccodigo": rec.paccodigo,
                 "procodigo": rec.procodigo,
                 "preconteudo": rec.preconteudo,
                 "predatacriacao": rec.predatacriacao.isoformat() if rec.predatacriacao else None
@@ -169,3 +171,10 @@ class CorePrescricao:
         list_prescricoes = [prescricao.to_dict() for prescricao in prescricoes]
 
         return list_prescricoes
+    
+
+    def get_ultima_prescricao(paccodigo: int):
+        with SessionLocal() as db:
+            prescricao = db.query(Prescricoes).filter_by(paccodigo=paccodigo).order_by(Prescricoes.procodigo.desc()).first()
+
+        return prescricao.to_dict()

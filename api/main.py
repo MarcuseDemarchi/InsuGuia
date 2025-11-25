@@ -6,7 +6,7 @@ from src.core.core_protocolo import CoreProtocolo
 from src.core.core_prescricao import CorePrescricao
 from src.infra.database import SessionLocal
 from src.infra.database.models.protocolos import Protocolos
-from src.infra.database.models.prescricoes import Prescricoes
+from src.core.core_acompanhamento import CoreAcompanhamento
 
 
 Base.metadata.create_all(bind=engine)
@@ -63,19 +63,16 @@ def cadastrar_acompanhamento():
     prealmoco = data.get("glicemia_pre_almoco")
     prejantar = data.get("glicemia_pre_jantar")
     glic22 = data.get("glicemia_22h")
-    ajustes = data.get("ajustes")
 
-    from src.core.core_acompanhamento import CoreAcompanhamento
-    ok, msg, acocodigo = CoreAcompanhamento.inserir_acompanhamento(
+    ok, msg, acoajustes = CoreAcompanhamento.inserir_acompanhamento(
         paccodigo=paccodigo,
         jejum=jejum,
         pre_almoco=prealmoco,
         pre_jantar=prejantar,
         glicemia_22h=glic22,
-        ajustes=ajustes
     )
 
-    return jsonify({"message": msg, "acocodigo": acocodigo})
+    return jsonify({"message": msg, "ajustes": acoajustes})
 
 @app.post("/gerarPrescricao")
 def gerar_prescricao():
@@ -101,6 +98,10 @@ def gerar_prescricao():
         "resultado": resultado
     }), 201
 
+
+@app.get('/getUltimaPrescricao/<paccodigo>')
+def get_ultima_prescricao(paccodigo):
+    return CorePrescricao.get_ultima_prescricao(paccodigo)
 
 @app.get("/getPrescricao")
 def get_prescricoes():

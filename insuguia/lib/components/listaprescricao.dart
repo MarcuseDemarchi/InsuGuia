@@ -20,6 +20,7 @@ class _ListaPrescricoestate extends State<ListaPrescricoes>{
     final response = await http.get(Uri.parse('http://127.0.0.1:5000/getPrescricao'));
     if (response.statusCode == 200) {
       final List<dynamic> data = json.decode(response.body);
+      print(data);
       return data.map((json) => Prescricao.fromJson(json)).toList();
     } else {
       throw Exception('Failed to load items');

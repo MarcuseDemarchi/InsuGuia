@@ -44,12 +44,14 @@ class PrescricaoPage extends StatelessWidget{
 
 class Prescricao {
   final int id;
+  final int paccodigo;
   final Protocolo protocolo;
   final DateTime dataEmissao;
   final String conteudo;
 
   Prescricao({
     required this.id,
+    required this.paccodigo,
     required this.protocolo,
     required this.conteudo, 
     required this.dataEmissao,
@@ -59,6 +61,7 @@ class Prescricao {
   factory Prescricao.fromJson(json){
     return Prescricao(
       id: json['precodigo'], 
+      paccodigo: json['paccodigo'],
       protocolo: Protocolo.fromJson(json['protocolo']), 
       conteudo: json['preconteudo'], 
       dataEmissao: DateTime.parse(json['datacriacao']),
