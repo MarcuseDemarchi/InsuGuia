@@ -23,6 +23,16 @@ class CoreProtocolo:
         list_protocolos = [protocolo.to_dict() for protocolo in protocolos]
 
         return list_protocolos
+    
+    def get_protocolo(procodigo):
+        """ Get em todos os protocolos do banco """
+        with SessionLocal() as db:
+            protocolo = db.query(Protocolos).filter_by(procodigo=procodigo).first()         
+        
+        if not protocolo:
+            return "protocolo não encontrado"
+
+        return protocolo
 
     def calcular_doses(self):
         """ Regra simplificada para teste do sistema """

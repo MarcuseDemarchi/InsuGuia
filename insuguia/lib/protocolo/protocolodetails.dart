@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:insuguia/components/appnavigationbar.dart';
 import 'package:insuguia/paciente/pacientedetails.dart';
+import 'package:insuguia/prescricao/prescricao.dart';
 import 'package:insuguia/protocolo/protocolo.dart';
 
 class Protocolodetails extends StatelessWidget{
@@ -318,7 +319,7 @@ class Protocolodetails extends StatelessWidget{
                   ),
                   SizedBox(height: 40),
                   ElevatedButton(onPressed: (){
-
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => PrescricaoPage()));
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue[700],

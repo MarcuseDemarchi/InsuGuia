@@ -161,3 +161,11 @@ class CorePrescricao:
                 "preconteudo": rec.preconteudo,
                 "predatacriacao": rec.predatacriacao.isoformat() if rec.predatacriacao else None
             }
+        
+    def get_prescricoes():
+        with SessionLocal() as db:
+            prescricoes = db.query(Prescricoes).all()
+
+        list_prescricoes = [prescricao.to_dict() for prescricao in prescricoes]
+
+        return list_prescricoes

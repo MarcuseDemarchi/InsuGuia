@@ -101,9 +101,14 @@ def gerar_prescricao():
         "resultado": resultado
     }), 201
 
+
 @app.get("/getPrescricao")
-def get_prescricao():
-    precodigo = request.args.get("precodigo", type=int)
+def get_prescricoes():
+    return CorePrescricao.get_prescricoes()
+
+
+@app.get("/getPrescricao/<precodigo>")
+def get_prescricao(precodigo):
     if not precodigo:
         return jsonify({"message": "precodigo é obrigatório"}), 400
 
